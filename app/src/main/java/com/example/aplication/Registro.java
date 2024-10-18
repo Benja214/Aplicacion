@@ -31,7 +31,7 @@ public class Registro extends AppCompatActivity {
         etEmailRegistro = findViewById(R.id.etEmailRegistro);
         etClaveRegistro = findViewById(R.id.etClaveRegistro);
         btnRegistrar = findViewById(R.id.btnRegistrar);
-        btnIniciar = findViewById(R.id.btnIniciar);
+        //btnIniciar = findViewById(R.id.btnIniciar);
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override

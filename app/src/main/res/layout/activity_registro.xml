@@ -46,7 +46,7 @@
             android:drawablePadding="10dp"
             android:inputType="textPersonName"
             android:hint="Nombre"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:background="@drawable/edittext_background"
             android:layout_marginBottom="16dp"/>
 
@@ -58,7 +58,7 @@
             android:drawablePadding="10dp"
             android:inputType="textPersonName"
             android:hint="Apellido"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:background="@drawable/edittext_background"
             android:layout_marginBottom="16dp"/>
 
@@ -70,7 +70,7 @@
             android:drawablePadding="10dp"
             android:inputType="text"
             android:hint="RUT"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:background="@drawable/edittext_background"
             android:layout_marginBottom="16dp"/>
 
@@ -82,7 +82,7 @@
             android:drawablePadding="10dp"
             android:inputType="phone"
             android:hint="Teléfono"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:background="@drawable/edittext_background"
             android:layout_marginBottom="16dp"/>
 
@@ -94,7 +94,7 @@
             android:drawablePadding="10dp"
             android:inputType="textEmailAddress"
             android:hint="Correo Electrónico"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:background="@drawable/edittext_background"
             android:layout_marginBottom="16dp"/>
 
@@ -106,7 +106,7 @@
             android:drawablePadding="10dp"
             android:inputType="textPassword"
             android:hint="Contraseña"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:background="@drawable/edittext_background"
             android:layout_marginBottom="32dp"/>
 
