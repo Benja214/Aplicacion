@@ -8,57 +8,139 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#BEC4C2"
+        android:gravity="center"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingHorizontal="16dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="30dp"
+            app:srcCompat="@drawable/vanner" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Registro"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Crea tu cuenta para utilizar la aplicación"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_marginBottom="32dp"/>
 
         <EditText
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre" />
+            android:drawableLeft="@drawable/user"
+            android:drawablePadding="10dp"
+            android:inputType="textPersonName"
+            android:hint="Nombre"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="16dp"/>
 
         <EditText
             android:id="@+id/etApellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Apellido" />
+            android:drawableLeft="@drawable/user"
+            android:drawablePadding="10dp"
+            android:inputType="textPersonName"
+            android:hint="Apellido"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="16dp"/>
 
         <EditText
             android:id="@+id/etRut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="RUT" />
+            android:drawableLeft="@drawable/card"
+            android:drawablePadding="10dp"
+            android:inputType="text"
+            android:hint="RUT"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="16dp"/>
 
         <EditText
             android:id="@+id/etTelefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Teléfono" />
+            android:drawableLeft="@drawable/phone"
+            android:drawablePadding="10dp"
+            android:inputType="phone"
+            android:hint="Teléfono"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="16dp"/>
 
         <EditText
             android:id="@+id/etEmailRegistro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Correo Electrónico" />
+            android:drawableLeft="@drawable/mail"
+            android:drawablePadding="10dp"
+            android:inputType="textEmailAddress"
+            android:hint="Correo Electrónico"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="16dp"/>
 
         <EditText
             android:id="@+id/etClaveRegistro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/lock"
+            android:drawablePadding="10dp"
+            android:inputType="textPassword"
             android:hint="Contraseña"
-            android:inputType="textPassword" />
+            android:textColor="#FFFFFF"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="32dp"/>
 
         <Button
             android:id="@+id/btnRegistrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingHorizontal="100dp"
+            android:textSize="16sp"
+            android:text="Registrarse"
+            app:cornerRadius="8dp" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Registrarse" />
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¿Ya tienes cuenta?" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:padding="10dp"
+                android:text="Inicia sesión"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+        </LinearLayout>
 
     </LinearLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
