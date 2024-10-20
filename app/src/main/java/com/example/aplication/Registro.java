@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class Registro extends AppCompatActivity {
 
     private EditText etNombre, etApellido, etRUT, etTelefono, etEmailRegistro, etClaveRegistro;
-    private Button btnRegistrar, btnIniciar;
+    private Button btnRegistrar;
 
     private FirebaseAuth auth;
 
@@ -31,7 +31,6 @@ public class Registro extends AppCompatActivity {
         etEmailRegistro = findViewById(R.id.etEmailRegistro);
         etClaveRegistro = findViewById(R.id.etClaveRegistro);
         btnRegistrar = findViewById(R.id.btnRegistrar);
-        //btnIniciar = findViewById(R.id.btnIniciar);
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override

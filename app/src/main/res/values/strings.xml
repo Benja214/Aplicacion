@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">aplication</string>
+    <string name="action_settings">Ajustes</string>
+
+    <string name="menu_profile">Perfil</string>
+    <string name="menu_home">Inicio</string>
+    <string name="menu_settings">Ajustes</string>
 </resources>

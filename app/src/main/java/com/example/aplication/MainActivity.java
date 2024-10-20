@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                startActivity(new Intent(MainActivity.this, Perfil.class));
+                                startActivity(new Intent(MainActivity.this, Navbar.class));
                                 finish();
                             } else {
                                 Toast.makeText(MainActivity.this, "Login fallido. Verifique sus credenciales.", Toast.LENGTH_SHORT).show();
