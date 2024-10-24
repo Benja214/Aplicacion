@@ -47,11 +47,11 @@ public class ProfileFragment extends Fragment {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             // Mostrar los datos en la interfaz
-                            binding.tvNombre.setText(document.getString("nombre"));
-                            binding.tvApellido.setText(document.getString("apellido"));
-                            binding.tvRut.setText(document.getString("rut"));
-                            binding.tvPhone.setText(document.getString("telefono"));
-                            binding.tvEmail.setText(document.getString("email"));
+                            //binding.tvNombre.setText(document.getString("nombre"));
+                            //binding.tvApellido.setText(document.getString("apellido"));
+                            //binding.tvRut.setText(document.getString("rut"));
+                            //binding.tvPhone.setText(document.getString("telefono"));
+                            //binding.tvEmail.setText(document.getString("email"));
                         } else {
                             Log.d("Perfil", "No se encontró el documento");
                             Toast.makeText(getContext(), "No se encontró el documento", Toast.LENGTH_SHORT).show();
