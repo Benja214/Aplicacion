@@ -1,4 +1,4 @@
-package com.example.aplication;
+package com.example.aplication.activities;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,14 +8,20 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.aplication.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Registro extends AppCompatActivity {
 
     private EditText etNombre, etApellido, etRUT, etTelefono, etEmailRegistro, etClaveRegistro;
-    private Button btnRegistrar, btnIniciar;
+    private Button btnRegistrar, btnIniciaSesion;
 
     private FirebaseAuth auth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +29,7 @@ public class Registro extends AppCompatActivity {
         setContentView(R.layout.activity_registro);
 
         auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance(); // Instancia de Firestore
 
         etNombre = findViewById(R.id.etNombre);
         etApellido = findViewById(R.id.etApellido);
@@ -31,7 +38,9 @@ public class Registro extends AppCompatActivity {
         etEmailRegistro = findViewById(R.id.etEmailRegistro);
         etClaveRegistro = findViewById(R.id.etClaveRegistro);
         btnRegistrar = findViewById(R.id.btnRegistrar);
-        //btnIniciar = findViewById(R.id.btnIniciar);
+        btnIniciaSesion = findViewById(R.id.btnIniciaSesion);
+
+        btnIniciaSesion.setOnClickListener(v -> finish());
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,8 +60,25 @@ public class Registro extends AppCompatActivity {
                 auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                Toast.makeText(Registro.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-                                finish();
+
+                                String userId = auth.getCurrentUser().getUid();
+
+                                Map<String, Object> contacto = new HashMap<>();
+                                contacto.put("nombre", nombre);
+                                contacto.put("apellido", apellido);
+                                contacto.put("rut", rut);
+                                contacto.put("telefono", telefono);
+                                contacto.put("email", email);
+
+                                db.collection("contacto").document(userId).set(contacto)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(Registro.this, "Registro exitoso y datos guardados", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(Registro.this, "Error al guardar los datos", Toast.LENGTH_SHORT).show();
+                                        });
+
                             } else {
                                 Toast.makeText(Registro.this, "Error en el registro. Inténtelo de nuevo.", Toast.LENGTH_SHORT).show();
                             }
