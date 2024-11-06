@@ -18,6 +18,37 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/nav_jobs"
+        android:name="com.example.aplication.ui.jobs.JobsFragment"
+        android:label="@string/menu_jobs"
+        tools:layout="@layout/fragment_jobs" >
+        <action
+            android:id="@+id/action_nav_jobs_to_create_job"
+            app:destination="@id/create_job" />
+        <action
+            android:id="@+id/action_nav_jobs_to_edit_job"
+            app:destination="@id/edit_job"
+            app:argType="string"
+            android:name="jobId" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/create_job"
+        android:name="com.example.aplication.ui.jobs.CreateJob"
+        android:label="@string/create_job"
+        tools:layout="@layout/create_job" />
+
+    <fragment
+        android:id="@+id/edit_job"
+        android:name="com.example.aplication.ui.jobs.EditJob"
+        android:label="@string/edit_job"
+        tools:layout="@layout/edit_job">
+        <argument
+            android:name="jobId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_settings"
         android:name="com.example.aplication.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
