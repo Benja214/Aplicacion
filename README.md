@@ -25,6 +25,10 @@ Correo Electrónico: Introduce un Correo profecional .
 Contraseña: ingrese una contraseña segura
 Aceptar Términos y Condiciones: Marca la casilla para aceptar los términos y condiciones.
 Enviar Información: Toca el botón “Registrar”.
+
+![image](https://github.com/user-attachments/assets/d1cdd54a-0d27-4646-83a2-9e8643ad6daf)
+
+
 ### 2.2 Confirmación de Registro
 Verificación de Correo: Recibirás un correo de confirmación. Haz clic en el enlace para activar tu cuenta.
 Registro Completo: Una vez activada tu cuenta, podrás iniciar sesión.
@@ -36,13 +40,20 @@ Introducir Credenciales:
 Correo Electrónico
 Contraseña
 Tocar "Iniciar Sesión": Si tus credenciales son correctas, serás llevado a la pantalla principal de la aplicación.
+
+![image](https://github.com/user-attachments/assets/a0183ebd-79b2-43de-9158-787b8b3a5e96)
+
 ### 3.2 Recuperar Contraseña (|||punto a trabajar|||)
 Seleccionar "Olvidé mi Contraseña": En la pantalla de inicio de sesión, toca esta opción. 
 Introducir Correo Electrónico: Proporciona el correo con el que te registraste.
 Enviar Solicitud: Toca el botón para recibir un correo de recuperación.
 Seguir Instrucciones: Sigue las instrucciones en el correo para restablecer tu contraseña. (arreglar)
 ## 4. Cerrar Sesión
-Cerrar Sesión: Para cerrar sesión, dirígete al menú de configuración y selecciona “Cerrar Sesión”.
+Cerrar Sesión: Para cerrar sesión, dirígete al arriba en los dos puntitos y le aparecera cerrar seccion
+
+![image](https://github.com/user-attachments/assets/7beb3269-89bb-417f-8b1c-d62d24ed2fe4)
+
+
 ## 5. Editar Perfill
 puede cambiar su perfil o eliminar
 Perfil del usuario:
@@ -51,6 +62,9 @@ Apellido: Escribe el apellido del usuario.
 Teléfono: Proporciona un número de contacto.
 Rut: Ingrese su rut
 Correo Electrónico: Introduce un nuevo correo .
+
+![image](https://github.com/user-attachments/assets/2b077f00-14a6-4bfe-a667-cf38ffe13906)
+
 ## 6.Soporte y Contacto
 Si tienes problemas durante el registro o inicio de sesión, puedes contactar a nuestro equipo de soporte:
 
