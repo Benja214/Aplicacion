@@ -24,6 +24,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class JobsFragment extends Fragment {
 
@@ -64,24 +65,45 @@ public class JobsFragment extends Fragment {
                             jobAdapter = new JobAdapter(getContext(), jobList, userRole);
                             recyclerView.setAdapter(jobAdapter);
 
-                            loadJobs(companyEmail);
+                            if (Objects.equals(userRole, "Empresa")) {
+                                binding.btnCrear.setVisibility(View.VISIBLE);
+                                binding.btnCrear.setOnClickListener(v -> {
+                                    NavController navController = Navigation.findNavController(v);
+                                    navController.navigate(R.id.action_nav_jobs_to_create_job);
+                                });
+                                loadCompanyJobs(companyEmail);
+                            } else {
+                                loadJobs();
+                            }
                         }
                     } else {
                         Toast.makeText(getContext(), "No se encontró el rol para el email especificado", Toast.LENGTH_SHORT).show();
                     }
                 });
 
-        binding.btnCrear.setOnClickListener(v -> {
-            NavController navController = Navigation.findNavController(v);
-            navController.navigate(R.id.action_nav_jobs_to_create_job);
-        });
-
         return root;
     }
 
-    private void loadJobs(String email) {
+    private void loadCompanyJobs(String email) {
         db.collection("jobs")
                 .whereEqualTo("companyEmail", email)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        jobList.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Job job = document.toObject(Job.class);
+                            jobList.add(job);
+                        }
+                        jobAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(getContext(), "Error al obtener trabajos", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void loadJobs() {
+        db.collection("jobs")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

@@ -1,5 +1,6 @@
 package com.example.aplication.ui.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.aplication.activities.MainActivity;
 import com.example.aplication.activities.Navbar;
 import com.example.aplication.models.Usuario;
 import com.example.aplication.databinding.FragmentProfileBinding;
@@ -116,7 +118,10 @@ public class ProfileFragment extends Fragment {
     private void eliminarPerfil() {
         userDocRef.delete().addOnSuccessListener(aVoid -> {
             Toast.makeText(getContext(), "Perfil eliminado", Toast.LENGTH_SHORT).show();
-            //Aqui
+            Intent intent = new Intent(getContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            requireActivity().finish();
         }).addOnFailureListener(e -> {
             Toast.makeText(getContext(), "Error al eliminar perfil", Toast.LENGTH_SHORT).show();
         });

@@ -19,7 +19,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
 
@@ -64,12 +68,26 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
                 deleteJob(job.getJobId(), position);
             });
         } else {
-            Log.d("JobAdapter", "Setting action button to 'Postular'");
-            holder.actionButton.setText("Postular");
-            holder.deleteButton.setVisibility(View.GONE);
-            holder.actionButton.setOnClickListener(view -> {
-                Toast.makeText(context, "Aplicaste al empleo: " + job.getTitle(), Toast.LENGTH_SHORT).show();
-            });
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+            try {
+                Date fecha = sdf.parse(job.getExpirationDate());
+                Date hoy = new Date();
+
+                if (fecha.before(hoy)) {
+                    holder.actionButton.setText("Vencido");
+                    holder.actionButton.setEnabled(false);
+                } else {
+                    Log.d("JobAdapter", "Setting action button to 'Postular'");
+                    holder.actionButton.setText("Postular");
+                    holder.deleteButton.setVisibility(View.GONE);
+                    holder.actionButton.setOnClickListener(view -> {
+                        Toast.makeText(context, "Aplicaste al empleo: " + job.getTitle(), Toast.LENGTH_SHORT).show();
+                    });
+                }
+            } catch (ParseException e) {
+                Toast.makeText(context, "Formato de fecha inválido: " + job.getExpirationDate(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
