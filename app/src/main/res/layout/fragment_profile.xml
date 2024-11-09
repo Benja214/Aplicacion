@@ -13,6 +13,21 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="30dp"
+            app:srcCompat="@drawable/vanner" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mantén tu perfil actualizado"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"/>
+
         <EditText
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
@@ -20,7 +35,8 @@
             android:background="@drawable/edittext_background"
             android:drawableLeft="@drawable/user"
             android:drawablePadding="10dp"
-            android:hint="Nombre" />
+            android:hint="Nombre"
+            android:layout_marginBottom="16dp" />
 
         <EditText
             android:id="@+id/etApellido"
@@ -29,7 +45,8 @@
             android:background="@drawable/edittext_background"
             android:drawableLeft="@drawable/user"
             android:drawablePadding="10dp"
-            android:hint="Apellido" />
+            android:hint="Apellido"
+            android:layout_marginBottom="16dp" />
 
         <EditText
             android:id="@+id/etTelefono"
@@ -38,16 +55,8 @@
             android:background="@drawable/edittext_background"
             android:drawableLeft="@drawable/phone"
             android:drawablePadding="10dp"
-            android:hint="Teléfono" />
-
-        <EditText
-            android:id="@+id/etRut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edittext_background"
-            android:drawableLeft="@drawable/card"
-            android:drawablePadding="10dp"
-            android:hint="Rut" />
+            android:hint="Teléfono"
+            android:layout_marginBottom="16dp" />
 
         <EditText
             android:id="@+id/etEmail"
@@ -56,7 +65,8 @@
             android:background="@drawable/edittext_background"
             android:drawableLeft="@drawable/mail"
             android:drawablePadding="10dp"
-            android:hint="Email" />
+            android:hint="Email"
+            android:layout_marginBottom="32dp" />
 
         <Button
             android:id="@+id/btnActualizar"
@@ -64,14 +74,7 @@
             android:layout_height="wrap_content"
             android:text="Actualizar"
             android:textSize="16sp"
-            app:cornerRadius="8dp" />
-
-        <Button
-            android:id="@+id/btnLimpiar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Limpiar"
-            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
             app:cornerRadius="8dp" />
 
         <Button

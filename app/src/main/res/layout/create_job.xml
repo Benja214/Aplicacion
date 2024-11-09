@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#BEC4C2"
+    android:padding="16dp"
+    tools:context=".ui.jobs.CreateJob">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nuevo trabajo"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Publica un nuevo trabajo en tu empresa"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_marginBottom="32dp"/>
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Título del empleo"
+            android:textColor="#000000"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descripción del empleo"
+            android:textColor="#000000"
+            android:minLines="3"
+            android:gravity="top"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etSalary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Sueldo ($)"
+            android:inputType="number"
+            android:textColor="#000000"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etVacancies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Vacantes"
+            android:inputType="number"
+            android:textColor="#000000"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etExpirationDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Fecha de Vencimiento (dd/mm/yyyy)"
+            android:textColor="#000000"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="16dp" />
+
+        <Spinner
+            android:id="@+id/spnJobMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/job_mode_array"
+            android:textColor="#000000"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="32dp"/>
+
+        <Button
+            android:id="@+id/btnPostJob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingHorizontal="100dp"
+            android:textSize="16sp"
+            android:text="Crear trabajo"
+            app:cornerRadius="8dp" />
+
+    </LinearLayout>
+</ScrollView>
