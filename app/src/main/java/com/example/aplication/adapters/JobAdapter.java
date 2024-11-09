@@ -14,7 +14,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.aplication.R;
+import com.example.aplication.models.Application;
 import com.example.aplication.models.Job;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.util.Log;
@@ -24,12 +26,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
 
     private Context context;
     private List<Job> jobList;
     private String userRole;
+
+    private FirebaseAuth auth;
+    private FirebaseFirestore db;
 
     public JobAdapter(Context context, List<Job> jobList, String userRole) {
         this.context = context;
@@ -82,7 +88,25 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
                     holder.actionButton.setText("Postular");
                     holder.deleteButton.setVisibility(View.GONE);
                     holder.actionButton.setOnClickListener(view -> {
-                        Toast.makeText(context, "Aplicaste al empleo: " + job.getTitle(), Toast.LENGTH_SHORT).show();
+                        auth = FirebaseAuth.getInstance();
+                        db = FirebaseFirestore.getInstance();
+
+                        String applicationId = UUID.randomUUID().toString();
+                        String workerEmail = auth.getCurrentUser().getEmail();
+                        Date currentDate = new Date();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        String formattedDate = dateFormat.format(currentDate);
+
+                        Application application = new Application(applicationId, job.getJobId(), job.getTitle(), workerEmail, job.getCompanyEmail(), formattedDate, "Postulado");
+                        db.collection("applications").document(applicationId).set(application)
+                                .addOnSuccessListener(aVoid -> {
+                                    holder.actionButton.setText("Postulado");
+                                    holder.actionButton.setEnabled(false);
+                                    Toast.makeText(context, "Aplicaste al empleo: " + job.getTitle(), Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(context, "Error al postular", Toast.LENGTH_SHORT).show();
+                                });
                     });
                 }
             } catch (ParseException e) {

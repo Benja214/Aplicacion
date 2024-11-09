@@ -49,6 +49,12 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_applications"
+        android:name="com.example.aplication.ui.applications.ApplicationsFragment"
+        android:label="@string/menu_applications"
+        tools:layout="@layout/fragment_applications" />
+
+    <fragment
         android:id="@+id/nav_settings"
         android:name="com.example.aplication.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"

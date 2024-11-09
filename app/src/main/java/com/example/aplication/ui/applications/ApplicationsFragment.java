@@ -1,4 +1,4 @@
-package com.example.aplication.ui.jobs;
+package com.example.aplication.ui.applications;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,10 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aplication.R;
-import com.example.aplication.adapters.JobAdapter;
-import com.example.aplication.databinding.FragmentJobsBinding;
+import com.example.aplication.adapters.ApplicationAdapter;
+import com.example.aplication.databinding.FragmentApplicationsBinding;
 import com.example.aplication.models.Application;
-import com.example.aplication.models.Job;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -27,32 +26,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class JobsFragment extends Fragment {
+public class ApplicationsFragment extends Fragment {
 
-    private FragmentJobsBinding binding;
+    private FragmentApplicationsBinding binding;
     private FirebaseAuth auth;
     private FirebaseFirestore db;
 
     private RecyclerView recyclerView;
-    private JobAdapter jobAdapter;
-    private List<Job> jobList;
+    private ApplicationAdapter applicationAdapter;
+    private List<Application> applicationsList;
     private String userRole;
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        JobsViewModel worksViewModel = new ViewModelProvider(this).get(JobsViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        ApplicationsViewModel applicationsViewModel =
+                new ViewModelProvider(this).get(ApplicationsViewModel.class);
 
-        binding = FragmentJobsBinding.inflate(inflater, container, false);
+        binding = FragmentApplicationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        jobList = new ArrayList<>();
+        applicationsList = new ArrayList<>();
         recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        jobAdapter = new JobAdapter(getContext(), jobList, "");
-        recyclerView.setAdapter(jobAdapter);
+        applicationAdapter = new ApplicationAdapter(getContext(), applicationsList, "");
+        recyclerView.setAdapter(applicationAdapter);
 
         String userEmail = auth.getCurrentUser().getEmail();
 
@@ -63,18 +64,13 @@ public class JobsFragment extends Fragment {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             userRole = document.getString("rol");
-                            jobAdapter = new JobAdapter(getContext(), jobList, userRole);
-                            recyclerView.setAdapter(jobAdapter);
+                            applicationAdapter = new ApplicationAdapter(getContext(), applicationsList, userRole);
+                            recyclerView.setAdapter(applicationAdapter);
 
                             if (Objects.equals(userRole, "Empresa")) {
-                                binding.btnCrear.setVisibility(View.VISIBLE);
-                                binding.btnCrear.setOnClickListener(v -> {
-                                    NavController navController = Navigation.findNavController(v);
-                                    navController.navigate(R.id.action_nav_jobs_to_create_job);
-                                });
-                                loadCompanyJobs(userEmail);
+                                loadCompanyApplications(userEmail);
                             } else {
-                                loadJobs(userEmail);
+                                loadApplications(userEmail);
                             }
                         }
                     } else {
@@ -85,53 +81,36 @@ public class JobsFragment extends Fragment {
         return root;
     }
 
-    private void loadCompanyJobs(String email) {
-        db.collection("jobs")
+    private void loadCompanyApplications(String email) {
+        db.collection("applications")
                 .whereEqualTo("companyEmail", email)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        jobList.clear();
+                        applicationsList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            Job job = document.toObject(Job.class);
-                            jobList.add(job);
+                            Application application = document.toObject(Application.class);
+                            applicationsList.add(application);
                         }
-                        jobAdapter.notifyDataSetChanged();
+                        applicationAdapter.notifyDataSetChanged();
                     } else {
-                        Toast.makeText(getContext(), "Error al obtener trabajos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Error al obtener postulaciones", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void loadJobs(String email) {
-        List<String> appliedJobIds = new ArrayList<>();
-
+    private void loadApplications(String email) {
         db.collection("applications")
                 .whereEqualTo("workerEmail", email)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        applicationsList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Application application = document.toObject(Application.class);
-                            appliedJobIds.add(application.getJobId());
+                            applicationsList.add(application);
                         }
-
-                        db.collection("jobs")
-                                .get()
-                                .addOnCompleteListener(jobTask -> {
-                                    if (jobTask.isSuccessful()) {
-                                        jobList.clear();
-                                        for (QueryDocumentSnapshot jobDocument : jobTask.getResult()) {
-                                            Job job = jobDocument.toObject(Job.class);
-                                            if (!appliedJobIds.contains(job.getJobId()) && job.getVacancies() > 0) {
-                                                jobList.add(job);
-                                            }
-                                        }
-                                        jobAdapter.notifyDataSetChanged();
-                                    } else {
-                                        Toast.makeText(getContext(), "Error al obtener trabajos", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                        applicationAdapter.notifyDataSetChanged();
                     } else {
                         Toast.makeText(getContext(), "Error al obtener postulaciones", Toast.LENGTH_SHORT).show();
                     }
