@@ -2,7 +2,6 @@ package com.example.aplication.ui.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.aplication.activities.MainActivity;
 import com.example.aplication.activities.Navbar;
-import com.example.aplication.models.Usuario;
+import com.example.aplication.models.User;
 import com.example.aplication.databinding.FragmentProfileBinding;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -53,7 +51,7 @@ public class ProfileFragment extends Fragment {
         btnBorrar = binding.btnEliminar;
 
         String userId = auth.getCurrentUser().getUid();
-        userDocRef = db.collection("contacto").document(userId);
+        userDocRef = db.collection("users").document(userId);
 
         cargarDatos();
 
@@ -65,7 +63,7 @@ public class ProfileFragment extends Fragment {
 
     private void cargarDatos() {
         String userId = auth.getCurrentUser().getUid();
-        db.collection("contacto").document(userId).get()
+        db.collection("users").document(userId).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
@@ -76,14 +74,18 @@ public class ProfileFragment extends Fragment {
                             binding.etEmail.setText(document.getString("email"));
                             ((Navbar) getActivity()).updateNavHeaderText(
                                     document.getString("nombre") + " " + document.getString("apellido"),
-                                    document.getString("email")
+                                    document.getString("email"),
+                                    document.getString("rol")
                             );
                         } else {
-                            Log.d("Perfil", "No se encontró el documento");
-                            Toast.makeText(getContext(), "No se encontró el documento", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "El usuario indicado se encuentra bloqueado", Toast.LENGTH_SHORT).show();
+                            FirebaseAuth.getInstance().signOut();
+                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            requireActivity().finish();
                         }
                     } else {
-                        Log.e("Perfil", "Error al recuperar los datos", task.getException());
                         Toast.makeText(getContext(), "Error al recuperar los datos: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -100,18 +102,13 @@ public class ProfileFragment extends Fragment {
                     if (documentSnapshot.exists()) {
                         String rol = documentSnapshot.getString("rol");
 
-                        Usuario usuario = new Usuario(nombre, apellido, telefono, email, rol);
-                        userDocRef.set(usuario).addOnSuccessListener(aVoid -> {
+                        User user = new User(nombre, apellido, telefono, email, rol);
+                        userDocRef.set(user).addOnSuccessListener(aVoid -> {
                             Toast.makeText(getContext(), "Perfil actualizado", Toast.LENGTH_SHORT).show();
                         }).addOnFailureListener(e -> {
                             Toast.makeText(getContext(), "Error al actualizar perfil", Toast.LENGTH_SHORT).show();
                         });
-                    } else {
-                        Log.d("Firestore", "El documento no existe");
                     }
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("Firestore", "Error al obtener los datos", e);
                 });
     }
 

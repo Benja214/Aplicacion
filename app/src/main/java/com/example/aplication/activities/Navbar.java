@@ -21,6 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.aplication.databinding.NavbarBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
 public class Navbar extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -40,7 +42,7 @@ public class Navbar extends AppCompatActivity {
         NavigationView navigationView = binding.navView;
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_profile, R.id.nav_home, R.id.nav_jobs, R.id.nav_applications, R.id.nav_settings)
+                R.id.nav_profile, R.id.nav_users, R.id.nav_jobs, R.id.nav_applications, R.id.nav_settings)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -61,7 +63,7 @@ public class Navbar extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void updateNavHeaderText(String usuario, String correo) {
+    public void updateNavHeaderText(String usuario, String correo, String rol) {
         TextView tvUsuarioHeader = findViewById(R.id.usuarioHeader);
         TextView tvEmailHeader = findViewById(R.id.emailHeader);
         if (tvUsuarioHeader != null) {
@@ -69,6 +71,11 @@ public class Navbar extends AppCompatActivity {
         }
         if (tvEmailHeader != null) {
             tvEmailHeader.setText(correo);
+        }
+        if (Objects.equals(rol, "Administrador")) {
+            binding.navView.getMenu().findItem(R.id.nav_users).setVisible(true);
+            binding.navView.getMenu().findItem(R.id.nav_applications).setVisible(false);
+            binding.navView.setCheckedItem(R.id.nav_profile);
         }
     }
 

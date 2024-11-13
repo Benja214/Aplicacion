@@ -1,15 +1,15 @@
 package com.example.aplication.models;
 
-public class Usuario {
+public class User {
     private String nombre;
     private String apellido;
     private String rol;
     private String telefono;
     private String email;
 
-    public Usuario() {}
+    public User() {}
 
-    public Usuario(String nombre, String apellido, String telefono, String email, String rol) {
+    public User(String nombre, String apellido, String telefono, String email, String rol) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;

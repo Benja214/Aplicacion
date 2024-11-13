@@ -3,7 +3,7 @@
     <string name="action_logout">Cerrar sesión</string>
 
     <string name="menu_profile">Perfil</string>
-    <string name="menu_home">Inicio</string>
+    <string name="menu_users">Usuarios</string>
     <string name="menu_jobs">Trabajos</string>
     <string name="menu_applications">Postulaciones</string>
     <string name="menu_settings">Ajustes</string>

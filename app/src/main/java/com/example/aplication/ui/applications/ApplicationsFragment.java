@@ -57,7 +57,7 @@ public class ApplicationsFragment extends Fragment {
 
         String userEmail = auth.getCurrentUser().getEmail();
 
-        db.collection("contacto")
+        db.collection("users")
                 .whereEqualTo("email", userEmail)
                 .get()
                 .addOnCompleteListener(task -> {

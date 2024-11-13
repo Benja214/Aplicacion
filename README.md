@@ -17,8 +17,8 @@ Conexión a Internet: Verifica que tu dispositivo esté conectado a internet. (p
 Abrir la Aplicación: Inicia la aplicación en tu dispositivo.
 Seleccionar "Registrarse": En la pantalla de inicio, toca el botón “Registrarse”.
 Completar el Formulario:
-Nombre : Escribe el nombre del usuario.
-Apellido: Escribe el apellido del usuario. 
+Nombre : Escribe el nombre del user.
+Apellido: Escribe el apellido del user. 
 Teléfono: Proporciona un número de contacto (ojala un numero de telefono solo para el trabajo).
 Rut: Ingrese su rut.
 Correo Electrónico: Introduce un Correo profecional .
@@ -56,9 +56,9 @@ Cerrar Sesión: Para cerrar sesión, dirígete al arriba en los dos puntitos y l
 
 ## 5. Editar Perfill
 puede cambiar su perfil o eliminar
-Perfil del usuario:
-Nombre : Escribe el nombre del usuario.
-Apellido: Escribe el apellido del usuario. 
+Perfil del user:
+Nombre : Escribe el nombre del user.
+Apellido: Escribe el apellido del user. 
 Teléfono: Proporciona un número de contacto.
 Rut: Ingrese su rut
 Correo Electrónico: Introduce un nuevo correo .

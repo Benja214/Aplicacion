@@ -1,6 +1,5 @@
 package com.example.aplication.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,9 +17,6 @@ import com.example.aplication.models.Application;
 import com.example.aplication.models.Job;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import android.util.Log;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -61,7 +57,6 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         holder.jobExpirationDate.setText("Vence: " + job.getExpirationDate());
 
         if ("Empresa".equals(userRole)) {
-            Log.d("JobAdapter", "Setting action button to 'Editar'");
             holder.actionButton.setText("Editar");
             holder.deleteButton.setVisibility(View.VISIBLE);
             holder.actionButton.setOnClickListener(view -> {
@@ -70,6 +65,14 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.action_nav_jobs_to_edit_job, bundle);
             });
+            holder.deleteButton.setOnClickListener(view -> {
+                deleteJob(job.getJobId(), position);
+            });
+        } else if ("Administrador".equals(userRole)) {
+            holder.jobEmail.setVisibility(View.VISIBLE);
+            holder.jobEmail.setText("Publicado por: " + job.getCompanyEmail());
+            holder.actionButton.setVisibility(View.GONE);
+            holder.deleteButton.setVisibility(View.VISIBLE);
             holder.deleteButton.setOnClickListener(view -> {
                 deleteJob(job.getJobId(), position);
             });
@@ -84,7 +87,6 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
                     holder.actionButton.setText("Vencido");
                     holder.actionButton.setEnabled(false);
                 } else {
-                    Log.d("JobAdapter", "Setting action button to 'Postular'");
                     holder.actionButton.setText("Postular");
                     holder.deleteButton.setVisibility(View.GONE);
                     holder.actionButton.setOnClickListener(view -> {
@@ -136,7 +138,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
     }
 
     public static class JobViewHolder extends RecyclerView.ViewHolder {
-        TextView jobTitle, jobDescription, jobSalary, jobVacancies, jobMode, jobExpirationDate;
+        TextView jobTitle, jobDescription, jobSalary, jobVacancies, jobMode, jobExpirationDate, jobEmail;
         Button actionButton, deleteButton;
 
         public JobViewHolder(@NonNull View itemView) {
@@ -147,6 +149,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
             jobVacancies = itemView.findViewById(R.id.jobVacancies);
             jobMode = itemView.findViewById(R.id.jobMode);
             jobExpirationDate = itemView.findViewById(R.id.jobExpirationDate);
+            jobEmail = itemView.findViewById(R.id.jobEmail);
             actionButton = itemView.findViewById(R.id.actionButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
         }

@@ -1,14 +1,14 @@
-package com.example.aplication.ui.home;
+package com.example.aplication.ui.users;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class UsersViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public UsersViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("Página principal.");
     }

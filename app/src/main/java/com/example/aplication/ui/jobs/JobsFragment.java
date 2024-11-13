@@ -56,7 +56,7 @@ public class JobsFragment extends Fragment {
 
         String userEmail = auth.getCurrentUser().getEmail();
 
-        db.collection("contacto")
+        db.collection("users")
                 .whereEqualTo("email", userEmail)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -73,6 +73,8 @@ public class JobsFragment extends Fragment {
                                     navController.navigate(R.id.action_nav_jobs_to_create_job);
                                 });
                                 loadCompanyJobs(userEmail);
+                            } else if (Objects.equals(userRole, "Administrador")) {
+                                loadAllJobs();
                             } else {
                                 loadJobs(userEmail);
                             }
@@ -134,6 +136,23 @@ public class JobsFragment extends Fragment {
                                 });
                     } else {
                         Toast.makeText(getContext(), "Error al obtener postulaciones", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void loadAllJobs() {
+        db.collection("jobs")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        jobList.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Job job = document.toObject(Job.class);
+                            jobList.add(job);
+                        }
+                        jobAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(getContext(), "Error al obtener trabajos", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

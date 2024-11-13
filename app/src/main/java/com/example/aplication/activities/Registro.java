@@ -89,7 +89,7 @@ public class Registro extends AppCompatActivity {
                                 contacto.put("email", email);
                                 contacto.put("rol", rol);
 
-                                db.collection("contacto").document(userId).set(contacto)
+                                db.collection("users").document(userId).set(contacto)
                                         .addOnSuccessListener(aVoid -> {
                                             Toast.makeText(Registro.this, "Registro exitoso y datos guardados", Toast.LENGTH_SHORT).show();
                                             finish();
@@ -99,7 +99,7 @@ public class Registro extends AppCompatActivity {
                                         });
 
                             } else {
-                                Toast.makeText(Registro.this, "Error en el registro. Inténtelo de nuevo.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Registro.this, "El correo indicado ya se encuentra registrado", Toast.LENGTH_SHORT).show();
                             }
                         });
             }

@@ -24,7 +24,6 @@
         </activity>
 
         <activity android:name=".activities.Registro" android:exported="true" />
-        <activity android:name=".Perfil" android:exported="true" />
         <activity android:name=".activities.Navbar" android:exported="true" />
     </application>
 
