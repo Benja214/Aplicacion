@@ -14,10 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText etEmailLogin;
-    private EditText etClaveLogin;
-    private Button btnLogin;
-    private Button btnRegistro;
+    private EditText etEmailLogin, etClaveLogin;
+    private Button btnLogin, btnRegistro, btnRecover;
 
     private FirebaseAuth auth;
 
@@ -32,12 +30,13 @@ public class MainActivity extends AppCompatActivity {
         etClaveLogin = findViewById(R.id.etClaveLogin);
         btnLogin = findViewById(R.id.btnLogin);
         btnRegistro = findViewById(R.id.btnRegistro);
+        btnRecover = findViewById(R.id.btnRecover);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = etEmailLogin.getText().toString();
-                String password = etClaveLogin.getText().toString();
+                String email = etEmailLogin.getText().toString().trim();
+                String password = etClaveLogin.getText().toString().trim();
 
                 if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
@@ -64,5 +63,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnRecover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = etEmailLogin.getText().toString().trim();
+
+                if (email.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Por favor, ingresa un correo", Toast.LENGTH_SHORT).show();
+                } else {
+                    sendPasswordResetEmail(email);
+                }
+            }
+        });
+    }
+
+    private void sendPasswordResetEmail(String email) {
+        auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(this, "Correo de restablecimiento enviado", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Error al enviar el correo: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
