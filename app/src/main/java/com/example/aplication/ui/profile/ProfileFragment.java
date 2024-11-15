@@ -7,12 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.example.aplication.activities.MainActivity;
 import com.example.aplication.activities.Navbar;
 import com.example.aplication.models.User;
@@ -21,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends Fragment {
 
@@ -29,20 +28,22 @@ public class ProfileFragment extends Fragment {
     private FirebaseFirestore db;
     private DocumentReference userDocRef;
 
+    private ImageView ivProfileImage;
     private EditText etNombre, etApellido, etTelefono,etEmail;
     private Button btnActualizar, btnBorrar;
+
+    private String imageUrl;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ProfileViewModel profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
-
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        ivProfileImage = binding.ivProfileImage;
         etNombre = binding.etNombre;
         etApellido = binding.etApellido;
         etTelefono = binding.etTelefono;
@@ -68,6 +69,10 @@ public class ProfileFragment extends Fragment {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
+                            if (document.getString("imageUrl") != null) {
+                                Picasso.get().load(document.getString("imageUrl")).into(ivProfileImage);
+                                imageUrl = document.getString("imageUrl");
+                            }
                             binding.etNombre.setText(document.getString("nombre"));
                             binding.etApellido.setText(document.getString("apellido"));
                             binding.etTelefono.setText(document.getString("telefono"));
@@ -102,7 +107,7 @@ public class ProfileFragment extends Fragment {
                     if (documentSnapshot.exists()) {
                         String rol = documentSnapshot.getString("rol");
 
-                        User user = new User(nombre, apellido, telefono, email, rol);
+                        User user = new User(nombre, apellido, telefono, email, rol, imageUrl);
                         userDocRef.set(user).addOnSuccessListener(aVoid -> {
                             Toast.makeText(getContext(), "Perfil actualizado", Toast.LENGTH_SHORT).show();
                         }).addOnFailureListener(e -> {

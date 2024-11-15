@@ -6,15 +6,17 @@ public class User {
     private String rol;
     private String telefono;
     private String email;
+    private String imageUrl;
 
     public User() {}
 
-    public User(String nombre, String apellido, String telefono, String email, String rol) {
+    public User(String nombre, String apellido, String telefono, String email, String rol, String imageUrl) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.email = email;
         this.rol = rol;
+        this.imageUrl = imageUrl;
     }
 
     public String getNombre() { return nombre; }
@@ -31,5 +33,8 @@ public class User {
 
     public String getRol() { return rol; }
     public void setRol(String rol) { this.rol = rol; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }
 
