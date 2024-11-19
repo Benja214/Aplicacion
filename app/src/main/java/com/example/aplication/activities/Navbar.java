@@ -1,13 +1,16 @@
 package com.example.aplication.activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aplication.R;
+import com.example.aplication.utils.CircleTransform;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aplication.databinding.NavbarBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
@@ -63,11 +67,22 @@ public class Navbar extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void updateNavHeaderText(String usuario, String correo, String rol) {
+    public void updateNavHeaderText(String imageUrl, String usuario, String correo, String rol) {
+        ImageView ivProfileImage = findViewById(R.id.imageView);
         TextView tvUsuarioHeader = findViewById(R.id.usuarioHeader);
+        TextView tvRolHeader = findViewById(R.id.rolHeader);
         TextView tvEmailHeader = findViewById(R.id.emailHeader);
+        if (ivProfileImage != null) {
+            Picasso.get()
+                    .load(imageUrl)
+                    .transform(new CircleTransform())
+                    .into(ivProfileImage);
+        }
         if (tvUsuarioHeader != null) {
             tvUsuarioHeader.setText(usuario);
+        }
+        if (tvRolHeader != null) {
+            tvRolHeader.setText(rol);
         }
         if (tvEmailHeader != null) {
             tvEmailHeader.setText(correo);
@@ -82,11 +97,18 @@ public class Navbar extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+            new AlertDialog.Builder(this)
+                    .setTitle("Confirmación")
+                    .setMessage("¿Estás seguro de que deseas cerrar sesión?")
+                    .setPositiveButton("Cerrar sesión", (dialog, which) -> {
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent(this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .create()
+                    .show();
             return true;
         }
         return super.onOptionsItemSelected(item);

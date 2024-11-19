@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#BEC4C2"
+    android:background="@color/background"
     android:padding="16dp"
     tools:context=".ui.jobs.CreateJob">
 
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="Nuevo trabajo"
             android:textAlignment="center"
-            android:textColor="#000000"
+            android:textColor="@color/text"
             android:textSize="20sp" />
 
         <TextView
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="Publica un nuevo trabajo en tu empresa"
             android:textAlignment="center"
-            android:textColor="#000000"
+            android:textColor="@color/text"
             android:textSize="14sp"
             android:layout_marginBottom="32dp"/>
 
@@ -35,8 +35,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Título del empleo"
-            android:textColor="#000000"
+            android:textColor="@color/text"
             android:background="@drawable/edittext_background"
+            android:backgroundTint="@color/text"
             android:layout_marginBottom="16dp" />
 
         <EditText
@@ -44,10 +45,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Descripción del empleo"
-            android:textColor="#000000"
+            android:textColor="@color/text"
             android:minLines="3"
             android:gravity="top"
             android:background="@drawable/edittext_background"
+            android:backgroundTint="@color/text"
             android:layout_marginBottom="16dp" />
 
         <EditText
@@ -56,8 +58,9 @@
             android:layout_height="wrap_content"
             android:hint="Sueldo ($)"
             android:inputType="number"
-            android:textColor="#000000"
+            android:textColor="@color/text"
             android:background="@drawable/edittext_background"
+            android:backgroundTint="@color/text"
             android:layout_marginBottom="16dp" />
 
         <EditText
@@ -66,8 +69,9 @@
             android:layout_height="wrap_content"
             android:hint="Vacantes"
             android:inputType="number"
-            android:textColor="#000000"
+            android:textColor="@color/text"
             android:background="@drawable/edittext_background"
+            android:backgroundTint="@color/text"
             android:layout_marginBottom="16dp" />
 
         <EditText
@@ -75,17 +79,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Fecha de Vencimiento (dd/mm/yyyy)"
-            android:textColor="#000000"
+            android:textColor="@color/text"
             android:background="@drawable/edittext_background"
-            android:layout_marginBottom="16dp" />
+            android:backgroundTint="@color/text"
+            android:layout_marginBottom="16dp"
+            android:focusable="false"
+            android:clickable="true" />
 
         <Spinner
             android:id="@+id/spnJobMode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/job_mode_array"
-            android:textColor="#000000"
+            android:textColor="@color/text"
             android:background="@drawable/edittext_background"
+            android:backgroundTint="@color/text"
             android:layout_marginBottom="32dp"/>
 
         <Button
@@ -97,6 +105,13 @@
             android:textSize="16sp"
             android:text="Crear trabajo"
             app:cornerRadius="8dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:indeterminateTint="@color/primary" />
 
     </LinearLayout>
 </ScrollView>

@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,12 +16,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.aplication.R;
 import com.example.aplication.models.User;
+import com.example.aplication.utils.CircleTransform;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -33,6 +38,7 @@ public class Registro extends AppCompatActivity {
     private EditText etNombre, etApellido, etTelefono, etEmailRegistro, etClaveRegistro;
     private Spinner spnRol;
     private Button btnRegistrar, btnIniciaSesion;
+    private ProgressBar progressBar;
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -60,9 +66,10 @@ public class Registro extends AppCompatActivity {
         spnRol = findViewById(R.id.spnRol);
         btnRegistrar = findViewById(R.id.btnRegistrar);
         btnIniciaSesion = findViewById(R.id.btnIniciaSesion);
+        progressBar = findViewById(R.id.progressBar);
 
         storageApp = FirebaseApp.getInstance("proyectoStorage");
-        storageReference = FirebaseStorage.getInstance(storageApp).getReference("tilines");
+        storageReference = FirebaseStorage.getInstance(storageApp).getReference("GrupoFuenzalida");
 
         btnIniciaSesion.setOnClickListener(v -> finish());
 
@@ -91,6 +98,9 @@ public class Registro extends AppCompatActivity {
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                btnRegistrar.setVisibility(View.GONE);
+
                 String nombre = etNombre.getText().toString();
                 String apellido = etApellido.getText().toString();
                 String telefono = etTelefono.getText().toString();
@@ -99,6 +109,8 @@ public class Registro extends AppCompatActivity {
 
                 if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty() || email.isEmpty() || password.isEmpty() || imageUri == null) {
                     Toast.makeText(Registro.this, "Por favor, complete todos los campos y seleccione una imagen", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    btnRegistrar.setVisibility(View.VISIBLE);
                     return;
                 }
 
@@ -110,7 +122,24 @@ public class Registro extends AppCompatActivity {
                                     uploadImageToStorage(user.getUid(), nombre, apellido, telefono, email, rol);
                                 }
                             } else {
-                                Toast.makeText(Registro.this, "El correo indicado ya se encuentra registrado", Toast.LENGTH_SHORT).show();
+                                String errorMessage = "Error al registrar usuario";
+                                if (task.getException() != null) {
+                                    String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                                    switch (errorCode) {
+                                        case "ERROR_WEAK_PASSWORD":
+                                            errorMessage = "La contraseña debe tener al menos 6 caracteres.";
+                                            break;
+                                        case "ERROR_EMAIL_ALREADY_IN_USE":
+                                            errorMessage = "El correo indicado ya está registrado.";
+                                            break;
+                                        case "ERROR_INVALID_EMAIL":
+                                            errorMessage = "El correo proporcionado no es válido.";
+                                            break;
+                                    }
+                                }
+                                Toast.makeText(Registro.this, errorMessage, Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
+                                btnRegistrar.setVisibility(View.VISIBLE);
                             }
                         });
             }
@@ -127,6 +156,8 @@ public class Registro extends AppCompatActivity {
                 });
             } else {
                 Toast.makeText(this, "Error al subir la imagen: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                btnRegistrar.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -140,6 +171,8 @@ public class Registro extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Error al guardar los datos", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    btnRegistrar.setVisibility(View.VISIBLE);
                 });
     }
 
@@ -149,7 +182,10 @@ public class Registro extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
-            ivProfileImage.setImageURI(imageUri);
+            Picasso.get()
+                    .load(imageUri)
+                    .transform(new CircleTransform())
+                    .into(ivProfileImage);
 
             Toast.makeText(this, "Imagen seleccionada", Toast.LENGTH_SHORT).show();
         }

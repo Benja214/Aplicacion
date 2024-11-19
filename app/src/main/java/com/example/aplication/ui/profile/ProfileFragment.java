@@ -1,5 +1,6 @@
 package com.example.aplication.ui.profile;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.example.aplication.activities.MainActivity;
 import com.example.aplication.activities.Navbar;
 import com.example.aplication.models.User;
 import com.example.aplication.databinding.FragmentProfileBinding;
+import com.example.aplication.utils.CircleTransform;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -70,14 +72,18 @@ public class ProfileFragment extends Fragment {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             if (document.getString("imageUrl") != null) {
-                                Picasso.get().load(document.getString("imageUrl")).into(ivProfileImage);
                                 imageUrl = document.getString("imageUrl");
+                                Picasso.get()
+                                        .load(imageUrl)
+                                        .transform(new CircleTransform())
+                                        .into(ivProfileImage);
                             }
                             binding.etNombre.setText(document.getString("nombre"));
                             binding.etApellido.setText(document.getString("apellido"));
                             binding.etTelefono.setText(document.getString("telefono"));
                             binding.etEmail.setText(document.getString("email"));
                             ((Navbar) getActivity()).updateNavHeaderText(
+                                    document.getString("imageUrl"),
                                     document.getString("nombre") + " " + document.getString("apellido"),
                                     document.getString("email"),
                                     document.getString("rol")
@@ -118,15 +124,22 @@ public class ProfileFragment extends Fragment {
     }
 
     private void eliminarPerfil() {
-        userDocRef.delete().addOnSuccessListener(aVoid -> {
-            Toast.makeText(getContext(), "Perfil eliminado", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getContext(), MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            requireActivity().finish();
-        }).addOnFailureListener(e -> {
-            Toast.makeText(getContext(), "Error al eliminar perfil", Toast.LENGTH_SHORT).show();
-        });
+        new AlertDialog.Builder(getContext())
+                .setTitle("Confirmación")
+                .setMessage("¿Estás seguro de que deseas eliminar tu cuenta?")
+                .setPositiveButton("Eliminar cuenta", (dialog, which) -> {
+                    userDocRef.delete().addOnSuccessListener(aVoid -> {
+                        Toast.makeText(getContext(), "Perfil eliminado", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        requireActivity().finish();
+                    }).addOnFailureListener(e -> {
+                        Toast.makeText(getContext(), "Error al eliminar perfil", Toast.LENGTH_SHORT).show();
+                    });
+                })
+                .create()
+                .show();
     }
 
     @Override

@@ -13,10 +13,10 @@ public class MyApp extends Application {
         FirebaseApp.initializeApp(this);
 
         FirebaseOptions options = new FirebaseOptions.Builder()
-                .setProjectId("proyectoa-b8822")
-                .setApplicationId("1:732444971670:android:a4aee43a9e7e93b0b8e8b7")
-                .setApiKey("AIzaSyBx5xk9bjSVQXk8pg1NHtJrEWkHQBZnhu8")
-                .setStorageBucket("proyectoa-b8822.firebasestorage.app")
+                .setProjectId("loginperfilimg")
+                .setApplicationId("1:1030729774309:android:f989dcbcc3c39bb40e500c")
+                .setApiKey("AIzaSyAgfeveBQYjthGmRU8S6QacpH4LHDOxaUg")
+                .setStorageBucket("loginperfilimg.appspot.com")
                 .build();
 
         FirebaseApp.initializeApp(this, options, "proyectoStorage");
