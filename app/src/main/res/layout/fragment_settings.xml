@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:background="@android:color/white">
+        android:background="@color/background">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                     android:layout_weight="1"
                     android:text="Notificaciones de trabajos"
                     android:textSize="16sp"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/text" />
 
                 <Switch
                     android:id="@+id/switch_notifications"
@@ -52,7 +52,7 @@
                     android:layout_weight="1"
                     android:text="Sincronización automática"
                     android:textSize="16sp"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/text" />
 
                 <Switch
                     android:id="@+id/switch_sync"
@@ -74,10 +74,10 @@
                     android:layout_weight="1"
                     android:text="Modo oscuro"
                     android:textSize="16sp"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/text" />
 
                 <Switch
-                    android:id="@+id/switch_dark_mode"
+                    android:id="@+id/switchDarkMode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -95,7 +95,7 @@
                     android:layout_weight="1"
                     android:text="Alertas de seguridad"
                     android:textSize="16sp"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/text" />
 
                 <Switch
                     android:id="@+id/switch_security_alerts"

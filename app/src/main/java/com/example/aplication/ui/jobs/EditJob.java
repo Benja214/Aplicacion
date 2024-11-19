@@ -1,5 +1,6 @@
 package com.example.aplication.ui.jobs;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import com.example.aplication.databinding.EditJobBinding;
 import com.example.aplication.models.Job;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Calendar;
 
 public class EditJob extends Fragment {
     private EditJobBinding binding;
@@ -51,6 +54,43 @@ public class EditJob extends Fragment {
             jobId = getArguments().getString("jobId");
             loadJobDetails(jobId);
         }
+
+        etExpirationDate.setOnClickListener(v -> {
+            final Calendar calendar = Calendar.getInstance();
+
+            String currentDate = etExpirationDate.getText().toString();
+            if (!currentDate.isEmpty()) {
+                try {
+                    String[] dateParts = currentDate.split("/");
+                    int day = Integer.parseInt(dateParts[0]);
+                    int month = Integer.parseInt(dateParts[1]) - 1;
+                    int year = Integer.parseInt(dateParts[2]);
+
+                    calendar.set(year, month, day);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    getContext(),
+                    R.style.CustomDatePickerTheme,
+                    (view, selectedYear, selectedMonth, selectedDay) -> {
+                        String formattedDate = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear);
+                        etExpirationDate.setText(formattedDate);
+                    },
+                    year,
+                    month,
+                    day
+            );
+
+            datePickerDialog.show();
+        });
+
 
         btnEditJob.setOnClickListener(v -> editJob());
 
