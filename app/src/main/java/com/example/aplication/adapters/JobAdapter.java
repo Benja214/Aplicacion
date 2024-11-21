@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -15,8 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.aplication.R;
 import com.example.aplication.models.Application;
 import com.example.aplication.models.Job;
+import com.example.aplication.models.User;
+import com.example.aplication.utils.CircleTransform;
+import com.example.aplication.utils.FCMService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.squareup.picasso.Picasso;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,21 +71,33 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
             holder.actionButton.setOnClickListener(view -> {
                 Bundle bundle = new Bundle();
                 bundle.putString("jobId", job.getJobId());
+                bundle.putString("companyImage", job.getCompanyImage());
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.action_nav_jobs_to_edit_job, bundle);
             });
             holder.deleteButton.setOnClickListener(view -> {
-                deleteJob(job.getJobId(), position);
+                deleteJob(job.getJobId(), position, holder);
             });
         } else if ("Administrador".equals(userRole)) {
+            Picasso.get()
+                    .load(job.getCompanyImage())
+                    .transform(new CircleTransform())
+                    .into(holder.jobImage);
+            holder.jobImage.setVisibility(View.VISIBLE);
             holder.jobEmail.setVisibility(View.VISIBLE);
             holder.jobEmail.setText("Publicado por: " + job.getCompanyEmail());
             holder.actionButton.setVisibility(View.GONE);
             holder.deleteButton.setVisibility(View.VISIBLE);
             holder.deleteButton.setOnClickListener(view -> {
-                deleteJob(job.getJobId(), position);
+                deleteJob(job.getJobId(), position, holder);
             });
         } else {
+            Picasso.get()
+                    .load(job.getCompanyImage())
+                    .transform(new CircleTransform())
+                    .into(holder.jobImage);
+            holder.jobImage.setVisibility(View.VISIBLE);
+
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
             try {
@@ -90,6 +111,9 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
                     holder.actionButton.setText("Postular");
                     holder.deleteButton.setVisibility(View.GONE);
                     holder.actionButton.setOnClickListener(view -> {
+                        holder.progressBar.setVisibility(View.VISIBLE);
+                        holder.actionButton.setVisibility(View.GONE);
+
                         auth = FirebaseAuth.getInstance();
                         db = FirebaseFirestore.getInstance();
 
@@ -99,15 +123,35 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                         String formattedDate = dateFormat.format(currentDate);
 
-                        Application application = new Application(applicationId, job.getJobId(), job.getTitle(), workerEmail, job.getCompanyEmail(), formattedDate, "Postulado");
-                        db.collection("applications").document(applicationId).set(application)
-                                .addOnSuccessListener(aVoid -> {
-                                    holder.actionButton.setText("Postulado");
-                                    holder.actionButton.setEnabled(false);
-                                    Toast.makeText(context, "Aplicaste al empleo: " + job.getTitle(), Toast.LENGTH_SHORT).show();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(context, "Error al postular", Toast.LENGTH_SHORT).show();
+                        db.collection("users")
+                                .whereEqualTo("email", workerEmail)
+                                .get()
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            String workerImage = document.getString("imageUrl");
+
+                                            Application application = new Application(applicationId, job.getJobId(), workerImage, job.getCompanyImage(), job.getTitle(), workerEmail, job.getCompanyEmail(), formattedDate, "Postulado");
+                                            db.collection("applications").document(applicationId).set(application)
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        holder.actionButton.setText("Postulado");
+                                                        holder.actionButton.setEnabled(false);
+                                                        holder.progressBar.setVisibility(View.GONE);
+                                                        holder.actionButton.setVisibility(View.VISIBLE);
+                                                        Toast.makeText(context, "Aplicaste al empleo: " + job.getTitle(), Toast.LENGTH_SHORT).show();
+                                                        companyNotification(job.getCompanyEmail(), "Nueva postulación", "Se ha realizado una nueva postulación al empleo: " + job.getTitle());
+                                                    })
+                                                    .addOnFailureListener(e -> {
+                                                        holder.progressBar.setVisibility(View.GONE);
+                                                        holder.actionButton.setVisibility(View.VISIBLE);
+                                                        Toast.makeText(context, "Error al postular", Toast.LENGTH_SHORT).show();
+                                                    });
+                                        }
+                                    } else {
+                                        holder.progressBar.setVisibility(View.GONE);
+                                        holder.actionButton.setVisibility(View.VISIBLE);
+                                        Toast.makeText(context, "No se encontró el rol para el email especificado", Toast.LENGTH_SHORT).show();
+                                    }
                                 });
                     });
                 }
@@ -122,27 +166,52 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         return jobList.size();
     }
 
-    private void deleteJob(String jobId, int position) {
+    private void deleteJob(String jobId, int position, @NonNull JobViewHolder holder) {
+        holder.progressBar.setVisibility(View.VISIBLE);
+        holder.actionLayout.setVisibility(View.GONE);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("jobs").document(jobId)
-                .delete()
+        db.collection("applications")
+                .whereEqualTo("jobId", jobId)
+                .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        jobList.remove(position);
-                        notifyItemRemoved(position);
-                        Toast.makeText(context, "Trabajo eliminado", Toast.LENGTH_SHORT).show();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            document.getReference().delete()
+                                    .addOnCompleteListener(applicationDeleteTask -> {});
+                        }
+
+                        db.collection("jobs").document(jobId)
+                                .delete()
+                                .addOnCompleteListener(jobTask -> {
+                                    if (jobTask.isSuccessful()) {
+                                        jobList.remove(position);
+                                        notifyItemRemoved(position);
+                                        Toast.makeText(context, "Trabajo eliminado", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        holder.progressBar.setVisibility(View.GONE);
+                                        holder.actionLayout.setVisibility(View.VISIBLE);
+                                        Toast.makeText(context, "Error al eliminar el trabajo", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                     } else {
-                        Toast.makeText(context, "Error al eliminar el trabajo", Toast.LENGTH_SHORT).show();
+                        holder.progressBar.setVisibility(View.GONE);
+                        holder.actionLayout.setVisibility(View.VISIBLE);
+                        Toast.makeText(context, "Error al eliminar las aplicaciones", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     public static class JobViewHolder extends RecyclerView.ViewHolder {
+        ImageView jobImage;
         TextView jobTitle, jobDescription, jobSalary, jobVacancies, jobMode, jobExpirationDate, jobEmail;
         Button actionButton, deleteButton;
+        ProgressBar progressBar;
+        LinearLayout actionLayout;
 
         public JobViewHolder(@NonNull View itemView) {
             super(itemView);
+            jobImage = itemView.findViewById(R.id.jobImage);
             jobTitle = itemView.findViewById(R.id.jobTitle);
             jobDescription = itemView.findViewById(R.id.jobDescription);
             jobSalary = itemView.findViewById(R.id.jobSalary);
@@ -152,6 +221,26 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
             jobEmail = itemView.findViewById(R.id.jobEmail);
             actionButton = itemView.findViewById(R.id.actionButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
+            progressBar = itemView.findViewById(R.id.progressBar);
+            actionLayout = itemView.findViewById(R.id.actionLayout);
         }
+    }
+
+    public void companyNotification(String userEmail, String title, String message) {
+        FCMService fcmService = new FCMService(context);
+        db.collection("users")
+                .whereEqualTo("email", userEmail)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            User user = document.toObject(User.class);
+                            String token = user.getFcmToken();
+                            fcmService.sendNotification(token, title, message);
+                        }
+                    } else {
+                        Toast.makeText(context, "Error al notificar a la empresa", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

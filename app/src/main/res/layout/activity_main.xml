@@ -1,128 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fitsSystemWindows="true"
     tools:context=".activities.MainActivity">
 
-    <LinearLayout
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="30dp"
-            app:srcCompat="@drawable/vanner" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Bienvenid@ de nuevo"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Inicie sesión en su cuenta usando el correo electrónico"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:layout_marginBottom="32dp"/>
-
-        <EditText
-            android:id="@+id/etEmailLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/mail"
-            android:drawablePadding="10dp"
-            android:inputType="textEmailAddress"
-            android:hint="Correo"
-            android:textColor="#000000"
-            android:background="@drawable/edittext_background"
-            android:layout_marginBottom="16dp"/>
-
-        <EditText
-            android:id="@+id/etClaveLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/lock"
-            android:drawablePadding="10dp"
-            android:inputType="textPassword"
-            android:hint="Contraseña"
-            android:textColor="#000000"
-            android:background="@drawable/edittext_background"
-            android:layout_marginBottom="32dp"/>
-
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingHorizontal="100dp"
-            android:textSize="16sp"
-            android:text="Ingresar"
-            app:cornerRadius="8dp" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:indeterminateTint="@color/primary" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="32dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="30dp"
+                app:srcCompat="@drawable/vaner" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="¿No tienes cuenta?" />
-
-            <Button
-                android:id="@+id/btnRegistro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#00FFFFFF"
-                android:padding="10dp"
-                android:text="Registrarse"
-                android:textColor="#000000"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+                android:text="Bienvenid@ de nuevo"
+                android:textAlignment="center"
+                android:textColor="@color/text"
+                android:textSize="20sp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="¿Olvidaste tu contraseña?" />
+                android:text="Inicie sesión en su cuenta usando el correo electrónico"
+                android:textAlignment="center"
+                android:textColor="@color/text"
+                android:textSize="14sp"
+                android:layout_marginBottom="32dp"/>
+
+            <EditText
+                android:id="@+id/etEmailLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/mail"
+                android:drawablePadding="10dp"
+                android:inputType="textEmailAddress"
+                android:hint="Correo"
+                android:textColor="@color/text"
+                android:background="@drawable/edittext_background"
+                android:backgroundTint="@color/text"
+                android:layout_marginBottom="16dp"/>
+
+            <EditText
+                android:id="@+id/etClaveLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/lock"
+                android:drawablePadding="10dp"
+                android:inputType="textPassword"
+                android:hint="Contraseña"
+                android:textColor="@color/text"
+                android:background="@drawable/edittext_background"
+                android:backgroundTint="@color/text"
+                android:layout_marginBottom="32dp"/>
 
             <Button
-                android:id="@+id/btnRecover"
+                android:id="@+id/btnLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#00FFFFFF"
-                android:padding="10dp"
-                android:text="Recuperar"
-                android:textColor="#000000"
-                android:textSize="16sp" />
-        </LinearLayout>
+                android:layout_gravity="center"
+                android:paddingHorizontal="100dp"
+                android:textSize="16sp"
+                android:text="Ingresar"
+                app:cornerRadius="8dp" />
 
-    </LinearLayout>
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:indeterminateTint="@color/primary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text"
+                    android:text="¿No tienes cuenta?" />
+
+                <Button
+                    android:id="@+id/btnRegistro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00FFFFFF"
+                    android:padding="10dp"
+                    android:text="Registrarse"
+                    android:textColor="@color/text"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text"
+                    android:text="¿Olvidaste tu contraseña?" />
+
+                <Button
+                    android:id="@+id/btnRecover"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00FFFFFF"
+                    android:padding="10dp"
+                    android:text="Recuperar"
+                    android:textColor="@color/text"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

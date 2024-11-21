@@ -5,6 +5,8 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryContainer">@color/primary</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="itemTextColor">@color/text</item>
     </style>
 
     <style name="Theme.Aplication" parent="Base.Theme.Aplication" />

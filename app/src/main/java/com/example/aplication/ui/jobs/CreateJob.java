@@ -17,15 +17,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.aplication.R;
-import com.example.aplication.activities.Registro;
 import com.example.aplication.databinding.CreateJobBinding;
 import com.example.aplication.models.Job;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class CreateJob extends Fragment {
@@ -137,16 +135,28 @@ public class CreateJob extends Fragment {
         String jobId = UUID.randomUUID().toString();
         String companyEmail = auth.getCurrentUser().getEmail();
 
-        Job job = new Job(jobId, companyEmail, title, description, expirationDate, Integer.parseInt(vacancies), jobMode, salary);
-        db.collection("jobs").document(jobId).set(job)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(getContext(), "Registro exitoso y datos guardados", Toast.LENGTH_SHORT).show();
-                    requireActivity().getSupportFragmentManager().popBackStack();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Error al guardar los datos", Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
-                    btnPostJob.setVisibility(View.VISIBLE);
+        db.collection("users")
+                .whereEqualTo("email", companyEmail)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String companyImage = document.getString("imageUrl");
+                            Job job = new Job(jobId, companyImage, companyEmail, title, description, expirationDate, Integer.parseInt(vacancies), jobMode, salary);
+                            db.collection("jobs").document(jobId).set(job)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(getContext(), "Registro exitoso y datos guardados", Toast.LENGTH_SHORT).show();
+                                        requireActivity().getSupportFragmentManager().popBackStack();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(getContext(), "Error al guardar los datos", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.GONE);
+                                        btnPostJob.setVisibility(View.VISIBLE);
+                                    });
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "No se encontró el rol para el email especificado", Toast.LENGTH_SHORT).show();
+                    }
                 });
     }
 

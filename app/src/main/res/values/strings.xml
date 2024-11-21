@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">aplication</string>
+    <string name="app_name">Váner</string>
     <string name="action_logout">Cerrar sesión</string>
 
     <string name="menu_profile">Perfil</string>

@@ -2,6 +2,7 @@ package com.example.aplication.models;
 
 public class Job {
     private String jobId;
+    private String companyImage;
     private String companyEmail;
     private String title;
     private String description;
@@ -12,8 +13,9 @@ public class Job {
 
     public Job() {}
 
-    public Job(String jobId, String companyEmail, String title, String description, String expirationDate, int vacancies, String jobMode, String salary) {
+    public Job(String jobId, String companyImage, String companyEmail, String title, String description, String expirationDate, int vacancies, String jobMode, String salary) {
         this.jobId = jobId;
+        this.companyImage = companyImage;
         this.companyEmail = companyEmail;
         this.title = title;
         this.description = description;
@@ -25,6 +27,9 @@ public class Job {
 
     public String getJobId() { return jobId; }
     public void setJobId(String jobId) { this.jobId = jobId; }
+
+    public String getCompanyImage() { return companyImage; }
+    public void setCompanyImage(String companyImage) { this.companyImage = companyImage; }
 
     public String getCompanyEmail() { return companyEmail; }
     public void setCompanyEmail(String companyEmail) { this.companyEmail = companyEmail; }

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -30,8 +31,10 @@ public class EditJob extends Fragment {
     private EditText etTitle, etDescription, etSalary, etVacancies, etExpirationDate;
     private Spinner spnJobMode;
     private Button btnEditJob;
+    private ProgressBar progressBar;
 
     private String jobId;
+    private String companyImage;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,9 +52,11 @@ public class EditJob extends Fragment {
         etExpirationDate = binding.etExpirationDate;
         spnJobMode = binding.spnJobMode;
         btnEditJob = binding.btnEditJob;
+        progressBar = binding.progressBar;
 
         if (getArguments() != null) {
             jobId = getArguments().getString("jobId");
+            companyImage = getArguments().getString("companyImage");
             loadJobDetails(jobId);
         }
 
@@ -119,6 +124,9 @@ public class EditJob extends Fragment {
     }
 
     private void editJob() {
+        progressBar.setVisibility(View.VISIBLE);
+        btnEditJob.setVisibility(View.GONE);
+
         String title = etTitle.getText().toString().trim();
         String description = etDescription.getText().toString().trim();
         String salary = etSalary.getText().toString().trim();
@@ -131,7 +139,7 @@ public class EditJob extends Fragment {
             return;
         }
 
-        Job updatedJob = new Job(jobId, auth.getCurrentUser().getEmail(), title, description, expirationDate, Integer.parseInt(vacanciesStr), jobMode, salary);
+        Job updatedJob = new Job(jobId, companyImage, auth.getCurrentUser().getEmail(), title, description, expirationDate, Integer.parseInt(vacanciesStr), jobMode, salary);
 
         db.collection("jobs").document(jobId)
                 .set(updatedJob)
@@ -140,6 +148,8 @@ public class EditJob extends Fragment {
                     requireActivity().getSupportFragmentManager().popBackStack();
                 })
                 .addOnFailureListener(e -> {
+                    progressBar.setVisibility(View.GONE);
+                    btnEditJob.setVisibility(View.VISIBLE);
                     Toast.makeText(getContext(), "Error al actualizar el trabajo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }

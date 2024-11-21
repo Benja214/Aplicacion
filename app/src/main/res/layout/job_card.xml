@@ -13,11 +13,20 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <ImageView
+            android:id="@+id/jobImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginBottom="4dp"/>
+
         <TextView
             android:id="@+id/jobTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Título del empleo"
+            android:textColor="@color/text"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -26,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Descripción breve del empleo"
+            android:textColor="@color/text"
             android:layout_marginTop="4dp"
             android:textSize="14sp" />
 
@@ -34,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sueldo: $1000"
+            android:textColor="@color/text"
             android:layout_marginTop="4dp"
             android:textSize="14sp" />
 
@@ -42,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vacantes: 5"
+            android:textColor="@color/text"
             android:layout_marginTop="4dp"
             android:textSize="14sp" />
 
@@ -50,6 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Modalidad: Full-time"
+            android:textColor="@color/text"
             android:layout_marginTop="4dp"
             android:textSize="14sp" />
 
@@ -58,6 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vence: 01/01/2025"
+            android:textColor="@color/text"
             android:layout_marginTop="4dp"
             android:textSize="14sp" />
 
@@ -66,11 +80,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Publicado por: ejemplo@gmail.com"
+            android:textColor="@color/text"
             android:layout_marginTop="4dp"
             android:textSize="14sp"
             android:visibility="gone" />
 
         <LinearLayout
+            android:id="@+id/actionLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -94,6 +110,14 @@
                 app:cornerRadius="8dp"
                 android:visibility="gone" />
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:indeterminateTint="@color/primary" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

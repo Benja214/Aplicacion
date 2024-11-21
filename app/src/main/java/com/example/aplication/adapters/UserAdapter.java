@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,9 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.aplication.R;
 import com.example.aplication.models.User;
+import com.example.aplication.utils.CircleTransform;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -42,6 +45,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         User user = userList.get(position);
+        Picasso.get()
+                .load(user.getImageUrl())
+                .transform(new CircleTransform())
+                .into(holder.userImage);
+        holder.userImage.setVisibility(View.VISIBLE);
         holder.tvUsername.setText(user.getNombre() + " " + user.getApellido());
         holder.tvRol.setText("Rol: " + user.getRol());
         holder.tvPhone.setText("Teléfono: " + user.getTelefono());
@@ -151,11 +159,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
+        ImageView userImage;
         TextView tvUsername, tvRol, tvPhone, tvEmail;
         Button btnDeleteUser;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
+            userImage = itemView.findViewById(R.id.userImage);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             tvRol = itemView.findViewById(R.id.tvRol);
             tvPhone = itemView.findViewById(R.id.tvPhone);

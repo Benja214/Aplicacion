@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,6 +27,8 @@ public class UsersFragment extends Fragment {
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private List<User> userList;
+    private ProgressBar progressBar;
+    private TextView tvEmpty;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +39,8 @@ public class UsersFragment extends Fragment {
 
         userList = new ArrayList<>();
         recyclerView = binding.recyclerView;
+        progressBar = binding.progressBar;
+        tvEmpty = binding.tvEmpty;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         userAdapter = new UserAdapter(getContext(), userList);
@@ -43,11 +49,19 @@ public class UsersFragment extends Fragment {
         db.collection("users")
                 .get()
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                         userList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            User user = document.toObject(User.class);
-                            userList.add(user);
+
+                        if (task.getResult().size() > 1) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                User user = document.toObject(User.class);
+                                userList.add(user);
+                            }
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            tvEmpty.setVisibility(View.VISIBLE);
                         }
                         userAdapter.notifyDataSetChanged();
                     } else {

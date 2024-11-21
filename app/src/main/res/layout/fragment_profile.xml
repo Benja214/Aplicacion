@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="Mantén tu perfil actualizado"
             android:textAlignment="center"
-            android:textColor="#000000"
+            android:textColor="@color/text"
             android:textSize="14sp"
             android:layout_marginBottom="16dp"/>
 

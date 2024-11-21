@@ -36,12 +36,4 @@
         android:textSize="12dp"
         android:textColor="#000000" />
 
-    <TextView
-        android:id="@+id/emailHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="user@email.com"
-        android:textSize="12dp"
-        android:textColor="#000000" />
-
 </LinearLayout>

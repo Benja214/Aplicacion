@@ -4,11 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,9 +38,10 @@ public class JobsFragment extends Fragment {
     private JobAdapter jobAdapter;
     private List<Job> jobList;
     private String userRole;
+    private ProgressBar progressBar;
+    private TextView tvEmpty;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        JobsViewModel worksViewModel = new ViewModelProvider(this).get(JobsViewModel.class);
 
         binding = FragmentJobsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -49,6 +51,8 @@ public class JobsFragment extends Fragment {
 
         jobList = new ArrayList<>();
         recyclerView = binding.recyclerView;
+        progressBar = binding.progressBar;
+        tvEmpty = binding.tvEmpty;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         jobAdapter = new JobAdapter(getContext(), jobList, "");
@@ -94,9 +98,16 @@ public class JobsFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         jobList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Job job = document.toObject(Job.class);
-                            jobList.add(job);
+                        if (!task.getResult().isEmpty()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Job job = document.toObject(Job.class);
+                                jobList.add(job);
+                            }
+                            progressBar.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            tvEmpty.setVisibility(View.VISIBLE);
                         }
                         jobAdapter.notifyDataSetChanged();
                     } else {
@@ -121,13 +132,25 @@ public class JobsFragment extends Fragment {
                         db.collection("jobs")
                                 .get()
                                 .addOnCompleteListener(jobTask -> {
-                                    if (jobTask.isSuccessful()) {
+                                    if (jobTask.isSuccessful() && !jobTask.getResult().isEmpty()) {
                                         jobList.clear();
-                                        for (QueryDocumentSnapshot jobDocument : jobTask.getResult()) {
-                                            Job job = jobDocument.toObject(Job.class);
-                                            if (!appliedJobIds.contains(job.getJobId()) && job.getVacancies() > 0) {
-                                                jobList.add(job);
+                                        if (!jobTask.getResult().isEmpty()) {
+                                            for (QueryDocumentSnapshot jobDocument : jobTask.getResult()) {
+                                                Job job = jobDocument.toObject(Job.class);
+                                                if (!appliedJobIds.contains(job.getJobId()) && job.getVacancies() > 0) {
+                                                    jobList.add(job);
+                                                }
                                             }
+                                            if (jobList.isEmpty()) {
+                                                tvEmpty.setVisibility(View.VISIBLE);
+                                            } else {
+                                                tvEmpty.setVisibility(View.GONE);
+                                            }
+                                            progressBar.setVisibility(View.GONE);
+                                            recyclerView.setVisibility(View.VISIBLE);
+                                        } else {
+                                            progressBar.setVisibility(View.GONE);
+                                            tvEmpty.setVisibility(View.VISIBLE);
                                         }
                                         jobAdapter.notifyDataSetChanged();
                                     } else {
@@ -146,9 +169,21 @@ public class JobsFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         jobList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Job job = document.toObject(Job.class);
-                            jobList.add(job);
+                        if (!task.getResult().isEmpty()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Job job = document.toObject(Job.class);
+                                jobList.add(job);
+                            }
+                            if (jobList.isEmpty()) {
+                                tvEmpty.setVisibility(View.VISIBLE);
+                            } else {
+                                tvEmpty.setVisibility(View.GONE);
+                            }
+                            progressBar.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            tvEmpty.setVisibility(View.VISIBLE);
                         }
                         jobAdapter.notifyDataSetChanged();
                     } else {

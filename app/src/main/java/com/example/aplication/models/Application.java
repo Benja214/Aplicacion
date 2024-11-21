@@ -3,6 +3,8 @@ package com.example.aplication.models;
 public class Application {
     private String applicationId;
     private String jobId;
+    private String workerImage;
+    private String companyImage;
     private String jobTitle;
     private String workerEmail;
     private String companyEmail;
@@ -11,9 +13,11 @@ public class Application {
 
     public Application() {}
 
-    public Application(String applicationId, String jobId, String jobTitle, String workerEmail, String companyEmail, String applicationDate, String status) {
+    public Application(String applicationId, String jobId, String workerImage, String companyImage, String jobTitle, String workerEmail, String companyEmail, String applicationDate, String status) {
         this.applicationId = applicationId;
         this.jobId = jobId;
+        this.workerImage = workerImage;
+        this.companyImage = companyImage;
         this.jobTitle = jobTitle;
         this.workerEmail = workerEmail;
         this.companyEmail = companyEmail;
@@ -26,6 +30,12 @@ public class Application {
 
     public String getJobId() { return jobId; }
     public void setJobId(String jobId) { this.jobId = jobId; }
+
+    public String getWorkerImage() { return workerImage; }
+    public void setWorkerImage(String workerImage) { this.workerImage = workerImage; }
+
+    public String getCompanyImage() { return companyImage; }
+    public void setCompanyImage(String companyImage) { this.companyImage = companyImage; }
 
     public String getJobTitle() { return jobTitle; }
     public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }

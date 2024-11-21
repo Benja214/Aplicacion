@@ -163,7 +163,7 @@ public class Registro extends AppCompatActivity {
     }
 
     private void saveUserToDatabase(String userId, String name, String lastName, String phone, String email, String rol, String imageUrl) {
-        User user = new User(name, lastName, phone, email, rol, imageUrl);
+        User user = new User(name, lastName, phone, email, rol, imageUrl, "");
         db.collection("users").document(userId).set(user)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Registro exitoso y datos guardados", Toast.LENGTH_SHORT).show();

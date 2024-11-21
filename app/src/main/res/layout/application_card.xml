@@ -13,11 +13,20 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <ImageView
+            android:id="@+id/applicationImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginBottom="4dp"/>
+
         <TextView
             android:id="@+id/jobTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Título del empleo aplicado"
+            android:textColor="@color/text"
             android:textSize="18sp" />
 
         <TextView
@@ -25,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Estado: Aceptado"
+            android:textColor="@color/text"
             android:layout_marginTop="4dp"
             android:textSize="14sp" />
 
@@ -33,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fecha de aplicación: 01/10/2024"
+            android:textColor="@color/text"
             android:layout_marginTop="4dp"
             android:textSize="14sp" />
 
@@ -41,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Empresa: Nombre de la empresa"
+            android:textColor="@color/text"
             android:layout_marginTop="4dp"
             android:textSize="14sp" />
 
@@ -69,6 +81,14 @@
                 android:layout_marginStart="8dp"
                 app:cornerRadius="8dp" />
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:indeterminateTint="@color/primary" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

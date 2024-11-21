@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.example.aplication.activities.MainActivity;
-import com.example.aplication.activities.Navbar;
 import com.example.aplication.models.User;
 import com.example.aplication.databinding.FragmentProfileBinding;
 import com.example.aplication.utils.CircleTransform;
@@ -82,12 +81,6 @@ public class ProfileFragment extends Fragment {
                             binding.etApellido.setText(document.getString("apellido"));
                             binding.etTelefono.setText(document.getString("telefono"));
                             binding.etEmail.setText(document.getString("email"));
-                            ((Navbar) getActivity()).updateNavHeaderText(
-                                    document.getString("imageUrl"),
-                                    document.getString("nombre") + " " + document.getString("apellido"),
-                                    document.getString("email"),
-                                    document.getString("rol")
-                            );
                         } else {
                             Toast.makeText(getContext(), "El usuario indicado se encuentra bloqueado", Toast.LENGTH_SHORT).show();
                             FirebaseAuth.getInstance().signOut();
@@ -112,8 +105,9 @@ public class ProfileFragment extends Fragment {
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String rol = documentSnapshot.getString("rol");
+                        String fcmToken = documentSnapshot.getString("fcmToken");
 
-                        User user = new User(nombre, apellido, telefono, email, rol, imageUrl);
+                        User user = new User(nombre, apellido, telefono, email, rol, imageUrl, fcmToken);
                         userDocRef.set(user).addOnSuccessListener(aVoid -> {
                             Toast.makeText(getContext(), "Perfil actualizado", Toast.LENGTH_SHORT).show();
                         }).addOnFailureListener(e -> {

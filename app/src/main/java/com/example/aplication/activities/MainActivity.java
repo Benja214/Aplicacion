@@ -1,6 +1,9 @@
 package com.example.aplication.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,10 +11,17 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.aplication.R;
+import com.example.aplication.models.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,13 +30,24 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private FirebaseAuth auth;
+    private FirebaseFirestore db;
+
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                } else {
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        askNotificationPermission();
+
         auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         etEmailLogin = findViewById(R.id.etEmailLogin);
         etClaveLogin = findViewById(R.id.etClaveLogin);
@@ -39,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, Navbar.class));
             finish();
         }
-
-        etEmailLogin.setText(auth.getCurrentUser().getEmail());
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,9 +80,39 @@ public class MainActivity extends AppCompatActivity {
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                Toast.makeText(MainActivity.this, "¡Sesión iniciada con éxito!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(MainActivity.this, Navbar.class));
-                                finish();
+                                FirebaseMessaging.getInstance().getToken()
+                                        .addOnCompleteListener(tokenTask -> {
+                                            if (tokenTask.isSuccessful()) {
+                                                String token = tokenTask.getResult();
+
+                                                String userId = auth.getCurrentUser().getUid();
+                                                db.collection("users").document(userId).get()
+                                                        .addOnCompleteListener(userTask -> {
+                                                            if (userTask.isSuccessful()) {
+                                                                DocumentSnapshot document = userTask.getResult();
+                                                                if (document.exists()) {
+                                                                    User user = document.toObject(User.class);
+                                                                    user.setFcmToken(token);
+                                                                    db.collection("users").document(userId)
+                                                                            .set(user)
+                                                                            .addOnCompleteListener(updateTask -> {
+                                                                                if (updateTask.isSuccessful()) {
+                                                                                    Toast.makeText(MainActivity.this, "¡Sesión iniciada con éxito!", Toast.LENGTH_SHORT).show();
+                                                                                    startActivity(new Intent(MainActivity.this, Navbar.class));
+                                                                                    finish();
+                                                                                } else {
+                                                                                    Toast.makeText(MainActivity.this, "Error al registrar el token: " + updateTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                                                }
+                                                                            });
+                                                                }
+                                                            } else {
+                                                                Toast.makeText(MainActivity.this, "Error al registrar dispositivo: " + userTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                            } else {
+                                                Toast.makeText(MainActivity.this, "Error al obtener el token: " + tokenTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                             } else {
                                 Toast.makeText(MainActivity.this, "Login fallido. Verifique sus credenciales.", Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
@@ -104,5 +153,16 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, "Error al enviar el correo: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED) {
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
     }
 }

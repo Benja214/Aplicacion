@@ -1,33 +1,29 @@
 package com.example.aplication.adapters;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.aplication.R;
 import com.example.aplication.models.Application;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.aplication.models.User;
+import com.example.aplication.utils.CircleTransform;
+import com.example.aplication.utils.FCMService;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
-import java.util.UUID;
 
 public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.ApplicationViewHolder> {
 
@@ -35,7 +31,6 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
     private List<Application> applicationList;
     private String userRole;
 
-    private FirebaseAuth auth;
     private FirebaseFirestore db;
 
     public ApplicationAdapter(Context context, List<Application> applicationList, String userRole) {
@@ -59,6 +54,11 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
         holder.applicationDate.setText("Fecha de aplicación: " + application.getApplicationDate());
 
         if ("Empresa".equals(userRole)) {
+            Picasso.get()
+                    .load(application.getWorkerImage())
+                    .transform(new CircleTransform())
+                    .into(holder.applicationImage);
+            holder.applicationImage.setVisibility(View.VISIBLE);
             holder.companyText.setText("Trabajador: " + application.getWorkerEmail());
             holder.buttons.setVisibility(View.VISIBLE);
             String status = application.getStatus();
@@ -79,6 +79,11 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
                 holder.declineButton.setEnabled(false);
             }
         } else {
+            Picasso.get()
+                    .load(application.getCompanyImage())
+                    .transform(new CircleTransform())
+                    .into(holder.applicationImage);
+            holder.applicationImage.setVisibility(View.VISIBLE);
             holder.companyText.setText("Empresa: " + application.getCompanyEmail());
         }
     }
@@ -89,12 +94,17 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
     }
 
     public void acceptApplication(@NonNull ApplicationViewHolder holder, Application application) {
+        holder.progressBar.setVisibility(View.VISIBLE);
+        holder.buttons.setVisibility(View.GONE);
+
         application.setStatus("Aceptado");
         db = FirebaseFirestore.getInstance();
         db.collection("applications").document(application.getApplicationId()).set(application).addOnSuccessListener(aVoid -> {
             holder.declineButton.setVisibility(View.GONE);
             holder.acceptButton.setText("Aceptado");
             holder.acceptButton.setEnabled(false);
+            holder.progressBar.setVisibility(View.GONE);
+            holder.buttons.setVisibility(View.VISIBLE);
             Toast.makeText(context, "Postulación aceptada", Toast.LENGTH_SHORT).show();
             db.collection("jobs").document(application.getJobId()).get().addOnSuccessListener(documentSnapshot -> {
                 if (documentSnapshot.exists()) {
@@ -105,30 +115,45 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
                     }
                 }
             });
+            workerNotification(application.getWorkerEmail(), "Postulación aceptada", "Tu postulación fue aceptada");
         }).addOnFailureListener(e -> {
+            holder.progressBar.setVisibility(View.GONE);
+            holder.buttons.setVisibility(View.VISIBLE);
             Toast.makeText(context, "Error al aceptar postulación", Toast.LENGTH_SHORT).show();
         });
     }
 
-    public void declineApplication(@NonNull ApplicationViewHolder holder, Application application) {
+    public void declineApplication(@NonNull ApplicationViewHolder holder, @NonNull Application application) {
+        holder.progressBar.setVisibility(View.VISIBLE);
+        holder.buttons.setVisibility(View.GONE);
+
         application.setStatus("Rechazado");
+        db = FirebaseFirestore.getInstance();
         db.collection("applications").document(application.getApplicationId()).set(application).addOnSuccessListener(aVoid -> {
             holder.acceptButton.setVisibility(View.GONE);
             holder.declineButton.setText("Rechazado");
             holder.declineButton.setEnabled(false);
+            holder.progressBar.setVisibility(View.GONE);
+            holder.buttons.setVisibility(View.VISIBLE);
             Toast.makeText(context, "Postulación rechazada", Toast.LENGTH_SHORT).show();
+            workerNotification(application.getWorkerEmail(), "Postulación rechazada", "Tu postulación fue rechazada");
         }).addOnFailureListener(e -> {
+            holder.progressBar.setVisibility(View.GONE);
+            holder.buttons.setVisibility(View.VISIBLE);
             Toast.makeText(context, "Error al rechazar postulación", Toast.LENGTH_SHORT).show();
         });
     }
 
     public static class ApplicationViewHolder extends RecyclerView.ViewHolder {
+        ImageView applicationImage;
         TextView jobTitleText, statusText, applicationDate, companyText;
         Button acceptButton, declineButton;
         LinearLayout buttons;
+        ProgressBar progressBar;
 
         public ApplicationViewHolder(@NonNull View itemView) {
             super(itemView);
+            applicationImage = itemView.findViewById(R.id.applicationImage);
             jobTitleText = itemView.findViewById(R.id.jobTitleText);
             statusText = itemView.findViewById(R.id.statusText);
             applicationDate = itemView.findViewById(R.id.applicationDate);
@@ -136,6 +161,25 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
             acceptButton = itemView.findViewById(R.id.acceptButton);
             declineButton = itemView.findViewById(R.id.declineButton);
             buttons = itemView.findViewById(R.id.buttons);
+            progressBar = itemView.findViewById(R.id.progressBar);
         }
+    }
+
+    public void workerNotification(String userEmail, String title, String message) {
+        FCMService fcmService = new FCMService(context);
+        db.collection("users")
+                .whereEqualTo("email", userEmail)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            User user = document.toObject(User.class);
+                            String token = user.getFcmToken();
+                            fcmService.sendNotification(token, title, message);
+                        }
+                    } else {
+                        Toast.makeText(context, "Error al notificar al trabajador", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

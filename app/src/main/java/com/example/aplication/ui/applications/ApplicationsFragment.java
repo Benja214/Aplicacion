@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,6 +38,8 @@ public class ApplicationsFragment extends Fragment {
     private ApplicationAdapter applicationAdapter;
     private List<Application> applicationsList;
     private String userRole;
+    private ProgressBar progressBar;
+    private TextView tvEmpty;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ public class ApplicationsFragment extends Fragment {
 
         applicationsList = new ArrayList<>();
         recyclerView = binding.recyclerView;
+        progressBar = binding.progressBar;
+        tvEmpty = binding.tvEmpty;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         applicationAdapter = new ApplicationAdapter(getContext(), applicationsList, "");
@@ -88,9 +94,21 @@ public class ApplicationsFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         applicationsList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Application application = document.toObject(Application.class);
-                            applicationsList.add(application);
+                        if (!task.getResult().isEmpty()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Application application = document.toObject(Application.class);
+                                applicationsList.add(application);
+                            }
+                            if (applicationsList.isEmpty()) {
+                                tvEmpty.setVisibility(View.VISIBLE);
+                            } else {
+                                tvEmpty.setVisibility(View.GONE);
+                            }
+                            progressBar.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            tvEmpty.setVisibility(View.VISIBLE);
                         }
                         applicationAdapter.notifyDataSetChanged();
                     } else {
@@ -106,9 +124,21 @@ public class ApplicationsFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         applicationsList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Application application = document.toObject(Application.class);
-                            applicationsList.add(application);
+                        if (!task.getResult().isEmpty()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Application application = document.toObject(Application.class);
+                                applicationsList.add(application);
+                            }
+                            if (applicationsList.isEmpty()) {
+                                tvEmpty.setVisibility(View.VISIBLE);
+                            } else {
+                                tvEmpty.setVisibility(View.GONE);
+                            }
+                            progressBar.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            tvEmpty.setVisibility(View.VISIBLE);
                         }
                         applicationAdapter.notifyDataSetChanged();
                     } else {

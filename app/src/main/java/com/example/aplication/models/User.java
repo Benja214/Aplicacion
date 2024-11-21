@@ -7,16 +7,18 @@ public class User {
     private String telefono;
     private String email;
     private String imageUrl;
+    private String fcmToken;
 
     public User() {}
 
-    public User(String nombre, String apellido, String telefono, String email, String rol, String imageUrl) {
+    public User(String nombre, String apellido, String telefono, String email, String rol, String imageUrl, String fcmToken) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.email = email;
         this.rol = rol;
         this.imageUrl = imageUrl;
+        this.fcmToken = fcmToken;
     }
 
     public String getNombre() { return nombre; }
@@ -36,5 +38,8 @@ public class User {
 
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public String getFcmToken() { return fcmToken; }
+    public void setFcmToken(String fcmToken) { this.fcmToken = fcmToken; }
 }
 

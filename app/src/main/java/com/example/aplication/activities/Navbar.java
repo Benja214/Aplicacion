@@ -2,6 +2,7 @@ package com.example.aplication.activities;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,6 +24,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aplication.databinding.NavbarBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
@@ -31,6 +34,8 @@ public class Navbar extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private NavbarBinding binding;
+    private FirebaseAuth auth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,25 @@ public class Navbar extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        String userId = auth.getCurrentUser().getUid();
+
+        db.collection("users").document(userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            updateNavHeaderText(
+                                    document.getString("imageUrl"),
+                                    document.getString("nombre") + " " + document.getString("apellido"),
+                                    document.getString("rol")
+                            );
+                        }
+                    }
+                });
+
     }
 
     @Override
@@ -67,11 +91,10 @@ public class Navbar extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void updateNavHeaderText(String imageUrl, String usuario, String correo, String rol) {
+    public void updateNavHeaderText(String imageUrl, String usuario, String rol) {
         ImageView ivProfileImage = findViewById(R.id.imageView);
         TextView tvUsuarioHeader = findViewById(R.id.usuarioHeader);
         TextView tvRolHeader = findViewById(R.id.rolHeader);
-        TextView tvEmailHeader = findViewById(R.id.emailHeader);
         if (ivProfileImage != null) {
             Picasso.get()
                     .load(imageUrl)
@@ -83,9 +106,6 @@ public class Navbar extends AppCompatActivity {
         }
         if (tvRolHeader != null) {
             tvRolHeader.setText(rol);
-        }
-        if (tvEmailHeader != null) {
-            tvEmailHeader.setText(correo);
         }
         if (Objects.equals(rol, "Administrador")) {
             binding.navView.getMenu().findItem(R.id.nav_users).setVisible(true);
