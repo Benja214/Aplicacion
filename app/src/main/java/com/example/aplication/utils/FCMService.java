@@ -58,7 +58,6 @@ public class FCMService {
                         Toast.makeText(context, "Error al enviar notificación", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(context, "Error al enviar notificación", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
