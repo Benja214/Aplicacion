@@ -24,7 +24,6 @@
    - **Nombre**: Escribe tu nombre completo.
    - **Apellido**: Introduce tu apellido.
    - **Teléfono**: Proporciona un número de contacto (recomendado un número exclusivo para el trabajo).
-   - **RUT**: Introduce tu RUT de manera correcta, incluyendo el guion y el dígito verificador.
    - **Correo Electrónico**: Usa un correo profesional y accesible.
    - **Contraseña**: Ingresa una contraseña segura que incluya letras mayúsculas, minúsculas, números y símbolos.
 4. **Aceptar Términos y Condiciones**: Marca la casilla para aceptar los términos y condiciones.
@@ -71,71 +70,63 @@
 
 ![image](https://github.com/user-attachments/assets/43862fbd-c78c-4bb8-9842-345c8da457af)
 
-## 6. Postulación a Empleo
-
-### 6.1 Descripción General
-La funcionalidad de postulación permite a los trabajadores buscar ofertas de empleo disponibles y postularse de manera sencilla directamente desde la aplicación. Además, los usuarios pueden gestionar sus postulaciones y recibir notificaciones sobre el estado de las mismas.
-
-### 6.2 Cómo Postular a una Oferta de Empleo
-1. **Acceder a la Sección de Ofertas**:
-   - En la pantalla principal, selecciona la opción **"Buscar Empleo"** para visualizar las ofertas disponibles.
-   
-   ![Visualización de Ofertas](https://github.com/user-attachments/assets/23770663-ed8c-43fe-b35b-3a89561c9eb3)
-
-2. **Explorar Ofertas**:
-   - Revisa la lista de ofertas y selecciona la que más te interese tocando sobre ella para ver más detalles.
-
-3. **Postularse a una Oferta**:
-   - Dentro de los detalles de la oferta, selecciona el botón **"Postular"**. 
-   - La aplicación confirmará que tu postulación fue enviada correctamente.
-
-4. **Gestionar Tus Postulaciones**:
-   - En la sección **"Mis Postulaciones"**, podrás visualizar el estado de todas tus solicitudes:
-     - *Pendiente*: La empresa aún no ha revisado tu postulación.
-     - *Aceptada*: Tu solicitud ha sido aceptada.
-     - *Rechazada*: Tu solicitud no fue seleccionada.
-
-   ![Gestión de Postulaciones](https://github.com/user-attachments/assets/6bacbe62-7266-498a-b042-61fe6be4ae8a)
-
----
-
-## 7. Creación de Trabajo
+## 7. Creación de Trabajo (Para Empresas/Admins)
 
 ### 7.1 Descripción General
-Los usuarios con perfil de empresa tienen la opción de publicar ofertas de empleo. Esto les permite detallar los requisitos del puesto y gestionar las postulaciones recibidas.
+Los usuarios con rol de empresa o admin tienen acceso a una sección donde pueden crear y gestionar ofertas de empleo, además de visualizar información sobre trabajadores interesados.
 
 ### 7.2 Cómo Crear una Oferta de Trabajo
-1. **Acceder a la Sección de Gestión de Empleos**:
-   - Desde el menú principal, selecciona la opción **"Publicar Oferta"**.
+1. **Acceder al Menú Principal**:
+   - En la interfaz de admin, utiliza las pestañas superiores para moverte entre **Trabajos** y **Empleadores**.
 
-   ![Publicar Oferta](https://github.com/user-attachments/assets/4601aa7f-cbb3-4c22-8e56-aea64694a395)
+   ![Interfaz Principal de Admin](https://github.com/user-attachments/assets/fb14125d-1674-4b25-b1d2-0a80ae3500ae)
 
-2. **Completar el Formulario de Oferta**:
-   - Ingresa los detalles del empleo, incluyendo:
-     - **Título del Puesto**: Nombre del empleo (ejemplo: "Desarrollador Web").
-     - **Descripción**: Detalles del trabajo, requisitos y beneficios.
-     - **Ubicación**: Ciudad o modalidad (remoto, presencial).
-     - **Salario**: (opcional) Rango salarial ofrecido.
+2. **Crear una Nueva Oferta**:
+   - En la pestaña **"Trabajos"**, selecciona la opción **"Crear Empleo"** para acceder al formulario de publicación.
 
-3. **Publicar la Oferta**:
-   - Toca el botón **"Publicar"**. La oferta será visible para todos los trabajadores en la sección de búsqueda de empleos.
+3. **Completar el Formulario**:
+   - Llena los campos requeridos:
+     - **Título del Puesto**: Nombre del trabajo.
+     - **Descripción**: Detalla las tareas, requisitos y beneficios.
+     - **Sueldo**: Indica el monto ofrecido (opcional).
+     - **Vacantes**: Número de posiciones disponibles.
+     - **Modalidad**: Part-time o Full-time.
+     - **Fecha de Vencimiento**: Hasta cuándo estará activa la oferta.
+     - 
+![image](https://github.com/user-attachments/assets/5395c1eb-e5ca-4df2-bced-b1701099673a)
 
-4. **Gestionar Postulaciones Recibidas**:
-   - En la sección **"Mis Ofertas"**, selecciona la oferta publicada para revisar las postulaciones.
-   - Acepta o rechaza postulaciones según lo desees tocando los botones correspondientes.
 
-   ![Gestionar Postulaciones](https://github.com/user-attachments/assets/0df472f0-5204-4691-b55d-f3c7db4c4fc7)
+4. **Publicar la Oferta**:
+   - Una vez completado el formulario, selecciona **"Publicar"** para que la oferta sea visible para los trabajadores en la sección de "Trabajos".
 
-### 7.3 Notificaciones de Postulaciones
-- Cuando un trabajador se postula a tu oferta, recibirás una notificación en la sección **"Notificaciones"** de tu perfil.
-- Puedes responder directamente desde la aplicación para coordinar los próximos pasos.
+5. **Gestionar las Postulaciones**:
+   - Cambia a la pestaña **"Mis Ofertas"** para revisar las postulaciones recibidas.
+
+### 7.3 Aceptar o Rechazar Postulaciones
+Los admins pueden gestionar las solicitudes de los trabajadores directamente desde la pestaña de **"Mis Ofertas"**, donde tienen opciones para aceptar o rechazar postulaciones.
+
+#### **Pasos para Aceptar o Rechazar Postulaciones**
+1. **Seleccionar la Oferta**:
+   - En la pestaña **"Mis Ofertas"**, elige la oferta en la que deseas revisar las postulaciones.
+
+2. **Revisar Candidatos**:
+   - Aparecerá una lista con los trabajadores que han postulado. Cada tarjeta muestra información básica del candidato, como su nombre y datos de contacto.
+
+3. **Aceptar o Rechazar**:
+   - Usa los botones disponibles:
+     - **Aceptar**: Si el trabajador cumple con los requisitos, selecciónalo para confirmar.
+     - **Rechazar**: Si no cumple con los requisitos, rechaza la postulación.
+
+   ![Aceptar o Rechazar Postulaciones](https://github.com/user-attachments/assets/0df472f0-5204-4691-b55d-f3c7db4c4fc7)
+
+4. **Notificar al Trabajador**:
+   - Automáticamente, el trabajador será notificado sobre tu decisión (aceptado o rechazado), con los próximos pasos indicados si es aceptado.
 
 ---
 
 ### Observaciones
-Estas funcionalidades han sido diseñadas para ofrecer una experiencia intuitiva y segura tanto para trabajadores como para empresas. Las mejoras en validaciones y notificaciones aseguran un flujo de comunicación eficiente.
-
-
+- La funcionalidad de **Aceptar o Rechazar Postulaciones** garantiza que los admins puedan gestionar las solicitudes de manera eficiente.
+- Los trabajadores recibirán actualizaciones en tiempo real sobre el estado de sus postulaciones, asegurando una experiencia transparente.
 
 
 ## 8. Soporte y Contacto
