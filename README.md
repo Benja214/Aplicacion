@@ -71,8 +71,74 @@
 
 ![image](https://github.com/user-attachments/assets/43862fbd-c78c-4bb8-9842-345c8da457af)
 
+## 6. Postulación a Empleo
 
-## 6. Soporte y Contacto
+### 6.1 Descripción General
+La funcionalidad de postulación permite a los trabajadores buscar ofertas de empleo disponibles y postularse de manera sencilla directamente desde la aplicación. Además, los usuarios pueden gestionar sus postulaciones y recibir notificaciones sobre el estado de las mismas.
+
+### 6.2 Cómo Postular a una Oferta de Empleo
+1. **Acceder a la Sección de Ofertas**:
+   - En la pantalla principal, selecciona la opción **"Buscar Empleo"** para visualizar las ofertas disponibles.
+   
+   ![Visualización de Ofertas](https://github.com/user-attachments/assets/23770663-ed8c-43fe-b35b-3a89561c9eb3)
+
+2. **Explorar Ofertas**:
+   - Revisa la lista de ofertas y selecciona la que más te interese tocando sobre ella para ver más detalles.
+
+3. **Postularse a una Oferta**:
+   - Dentro de los detalles de la oferta, selecciona el botón **"Postular"**. 
+   - La aplicación confirmará que tu postulación fue enviada correctamente.
+
+4. **Gestionar Tus Postulaciones**:
+   - En la sección **"Mis Postulaciones"**, podrás visualizar el estado de todas tus solicitudes:
+     - *Pendiente*: La empresa aún no ha revisado tu postulación.
+     - *Aceptada*: Tu solicitud ha sido aceptada.
+     - *Rechazada*: Tu solicitud no fue seleccionada.
+
+   ![Gestión de Postulaciones](https://github.com/user-attachments/assets/6bacbe62-7266-498a-b042-61fe6be4ae8a)
+
+---
+
+## 7. Creación de Trabajo
+
+### 7.1 Descripción General
+Los usuarios con perfil de empresa tienen la opción de publicar ofertas de empleo. Esto les permite detallar los requisitos del puesto y gestionar las postulaciones recibidas.
+
+### 7.2 Cómo Crear una Oferta de Trabajo
+1. **Acceder a la Sección de Gestión de Empleos**:
+   - Desde el menú principal, selecciona la opción **"Publicar Oferta"**.
+
+   ![Publicar Oferta](https://github.com/user-attachments/assets/4601aa7f-cbb3-4c22-8e56-aea64694a395)
+
+2. **Completar el Formulario de Oferta**:
+   - Ingresa los detalles del empleo, incluyendo:
+     - **Título del Puesto**: Nombre del empleo (ejemplo: "Desarrollador Web").
+     - **Descripción**: Detalles del trabajo, requisitos y beneficios.
+     - **Ubicación**: Ciudad o modalidad (remoto, presencial).
+     - **Salario**: (opcional) Rango salarial ofrecido.
+
+3. **Publicar la Oferta**:
+   - Toca el botón **"Publicar"**. La oferta será visible para todos los trabajadores en la sección de búsqueda de empleos.
+
+4. **Gestionar Postulaciones Recibidas**:
+   - En la sección **"Mis Ofertas"**, selecciona la oferta publicada para revisar las postulaciones.
+   - Acepta o rechaza postulaciones según lo desees tocando los botones correspondientes.
+
+   ![Gestionar Postulaciones](https://github.com/user-attachments/assets/0df472f0-5204-4691-b55d-f3c7db4c4fc7)
+
+### 7.3 Notificaciones de Postulaciones
+- Cuando un trabajador se postula a tu oferta, recibirás una notificación en la sección **"Notificaciones"** de tu perfil.
+- Puedes responder directamente desde la aplicación para coordinar los próximos pasos.
+
+---
+
+### Observaciones
+Estas funcionalidades han sido diseñadas para ofrecer una experiencia intuitiva y segura tanto para trabajadores como para empresas. Las mejoras en validaciones y notificaciones aseguran un flujo de comunicación eficiente.
+
+
+
+
+## 8. Soporte y Contacto
 Si experimentas problemas durante el registro, inicio de sesión o cualquier otro inconveniente, contacta a nuestro equipo de soporte para obtener asistencia:
 
 - **Correo Electrónico**: Vanner@empresa.com
