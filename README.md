@@ -70,12 +70,12 @@
 
 ![image](https://github.com/user-attachments/assets/43862fbd-c78c-4bb8-9842-345c8da457af)
 
-## 7. Creación de Trabajo (Para Empresas/Admins)
+## 6. Creación de Trabajo (Para Empresas/Admins)
 
-### 7.1 Descripción General
+### 6.1 Descripción General
 Los usuarios con rol de empresa o admin tienen acceso a una sección donde pueden crear y gestionar ofertas de empleo, además de visualizar información sobre trabajadores interesados.
 
-### 7.2 Cómo Crear una Oferta de Trabajo
+### 6.2 Cómo Crear una Oferta de Trabajo
 1. **Acceder al Menú Principal**:
    - En la interfaz de admin, utiliza las pestañas superiores para moverte entre **Trabajos** y **Empleadores**.
 
@@ -102,7 +102,7 @@ Los usuarios con rol de empresa o admin tienen acceso a una sección donde puede
 5. **Gestionar las Postulaciones**:
    - Cambia a la pestaña **"Mis Ofertas"** para revisar las postulaciones recibidas.
 
-### 7.3 Aceptar o Rechazar Postulaciones
+### 6.3 Aceptar o Rechazar Postulaciones
 Los admins pueden gestionar las solicitudes de los trabajadores directamente desde la pestaña de **"Mis Ofertas"**, donde tienen opciones para aceptar o rechazar postulaciones.
 
 #### **Pasos para Aceptar o Rechazar Postulaciones**
@@ -129,7 +129,7 @@ Los admins pueden gestionar las solicitudes de los trabajadores directamente des
 - Los trabajadores recibirán actualizaciones en tiempo real sobre el estado de sus postulaciones, asegurando una experiencia transparente.
 
 
-## 8. Soporte y Contacto
+## 6. Soporte y Contacto
 Si experimentas problemas durante el registro, inicio de sesión o cualquier otro inconveniente, contacta a nuestro equipo de soporte para obtener asistencia:
 
 - **Correo Electrónico**: Vanner@empresa.com
