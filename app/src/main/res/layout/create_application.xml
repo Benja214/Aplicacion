@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".ui.jobs.CreateApplication">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nuevo postulación"
+            android:textAlignment="center"
+            android:textColor="@color/text"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rellena los campos para enviar tu postulación"
+            android:textAlignment="center"
+            android:textColor="@color/text"
+            android:textSize="14sp"
+            android:layout_marginBottom="32dp"/>
+
+        <EditText
+            android:id="@+id/etMotivation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Motivación"
+            android:textColor="@color/text"
+            android:minLines="3"
+            android:gravity="top"
+            android:background="@drawable/edittext_background"
+            android:backgroundTint="@color/text"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etExperience"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Experiencia"
+            android:textColor="@color/text"
+            android:minLines="3"
+            android:gravity="top"
+            android:background="@drawable/edittext_background"
+            android:backgroundTint="@color/text"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etAvailability"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Disponibilidad horaria"
+            android:textColor="@color/text"
+            android:minLines="3"
+            android:gravity="top"
+            android:background="@drawable/edittext_background"
+            android:backgroundTint="@color/text"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ubicación"
+            android:textColor="@color/text"
+            android:background="@drawable/edittext_background"
+            android:backgroundTint="@color/text"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnPostApplication"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingHorizontal="100dp"
+            android:textSize="16sp"
+            android:text="Enviar"
+            app:cornerRadius="8dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:indeterminateTint="@color/primary" />
+
+    </LinearLayout>
+</ScrollView>

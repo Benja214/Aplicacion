@@ -23,6 +23,7 @@
             tools:layout_editor_absoluteY="-25dp">
 
             <ImageView
+                android:id="@+id/ivLogo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="30dp"
@@ -130,6 +131,21 @@
                 android:background="@drawable/edittext_background"
                 android:backgroundTint="@color/text"
                 android:drawableLeft="@drawable/lock"
+                android:drawableRight="@drawable/eye"
+                android:drawablePadding="10dp"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:textColor="@color/text" />
+
+            <EditText
+                android:id="@+id/etConfirmarClave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/edittext_background"
+                android:backgroundTint="@color/text"
+                android:drawableLeft="@drawable/lock"
+                android:drawableRight="@drawable/eye"
                 android:drawablePadding="10dp"
                 android:hint="Contraseña"
                 android:inputType="textPassword"

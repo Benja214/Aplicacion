@@ -8,8 +8,11 @@
     <string name="menu_applications">Postulaciones</string>
     <string name="menu_settings">Ajustes</string>
 
+    <string name="delete_account">Eliminar cuenta</string>
     <string name="create_job">Crear trabajo</string>
     <string name="edit_job">Editar trabajo</string>
+    <string name="detail_application">Detalle postulación</string>
+    <string name="create_application">Enviar postulación</string>
     <string-array name="job_mode_array">
         <item>Full-time</item>
         <item>Part-time</item>

@@ -1,8 +1,13 @@
 package com.example.aplication.activities;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,16 +31,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class Registro extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
-    private ImageView ivProfileImage;
+    private ImageView ivProfileImage, ivLogo;
     private TextView tvChangeImage;
-    private EditText etNombre, etApellido, etTelefono, etEmailRegistro, etClaveRegistro;
+    private EditText etNombre, etApellido, etTelefono, etEmailRegistro, etClaveRegistro, etConfirmarClave;
     private Spinner spnRol;
     private Button btnRegistrar, btnIniciaSesion;
     private ProgressBar progressBar;
@@ -47,7 +50,10 @@ public class Registro extends AppCompatActivity {
 
     private Uri imageUri;
     private String rol;
+    private SharedPreferences sharedPreferences;
+    private boolean isPasswordVisible, isConfirmPasswordVisible;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +62,7 @@ public class Registro extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        ivLogo = findViewById(R.id.ivLogo);
         ivProfileImage = findViewById(R.id.ivProfileImage);
         tvChangeImage = findViewById(R.id.tvChangeImage);
         etNombre = findViewById(R.id.etNombre);
@@ -63,13 +70,61 @@ public class Registro extends AppCompatActivity {
         etTelefono = findViewById(R.id.etTelefono);
         etEmailRegistro = findViewById(R.id.etEmailRegistro);
         etClaveRegistro = findViewById(R.id.etClaveRegistro);
+        etConfirmarClave = findViewById(R.id.etConfirmarClave);
         spnRol = findViewById(R.id.spnRol);
         btnRegistrar = findViewById(R.id.btnRegistrar);
         btnIniciaSesion = findViewById(R.id.btnIniciaSesion);
         progressBar = findViewById(R.id.progressBar);
 
+        sharedPreferences = this.getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        boolean darkModeEnabled = sharedPreferences.getBoolean("darkModeEnabled", false);
+        if (darkModeEnabled) {
+            ivLogo.setColorFilter( getResources().getColor(R.color.white) );
+        }
+
         storageApp = FirebaseApp.getInstance("proyectoStorage");
         storageReference = FirebaseStorage.getInstance(storageApp).getReference("GrupoFuenzalida");
+
+        isPasswordVisible = false;
+        isConfirmPasswordVisible = false;
+
+        etClaveRegistro.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (etClaveRegistro.getRight() - (etClaveRegistro.getCompoundDrawables()[2].getBounds().width() * 2))) {
+                    if (isPasswordVisible) {
+                        etClaveRegistro.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        etClaveRegistro.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock, 0, R.drawable.eye, 0);
+                    } else {
+                        etClaveRegistro.setInputType(InputType.TYPE_CLASS_TEXT);
+                        etClaveRegistro.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock, 0, R.drawable.eye_off, 0);
+                    }
+                    isPasswordVisible = !isPasswordVisible;
+
+                    etClaveRegistro.setSelection(etClaveRegistro.getText().length());
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        etConfirmarClave.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (etConfirmarClave.getRight() - (etConfirmarClave.getCompoundDrawables()[2].getBounds().width() * 2))) {
+                    if (isConfirmPasswordVisible) {
+                        etConfirmarClave.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        etConfirmarClave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock, 0, R.drawable.eye, 0);
+                    } else {
+                        etConfirmarClave.setInputType(InputType.TYPE_CLASS_TEXT);
+                        etConfirmarClave.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock, 0, R.drawable.eye_off, 0);
+                    }
+                    isConfirmPasswordVisible = !isConfirmPasswordVisible;
+
+                    etConfirmarClave.setSelection(etConfirmarClave.getText().length());
+                    return true;
+                }
+            }
+            return false;
+        });
 
         btnIniciaSesion.setOnClickListener(v -> finish());
 
@@ -114,11 +169,19 @@ public class Registro extends AppCompatActivity {
                     return;
                 }
 
+                if (!password.equals(etConfirmarClave.getText().toString())) {
+                    Toast.makeText(Registro.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    btnRegistrar.setVisibility(View.VISIBLE);
+                    return;
+                }
+
                 auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = auth.getCurrentUser();
                                 if (user != null) {
+                                    user.sendEmailVerification();
                                     uploadImageToStorage(user.getUid(), nombre, apellido, telefono, email, rol);
                                 }
                             } else {
@@ -166,7 +229,7 @@ public class Registro extends AppCompatActivity {
         User user = new User(name, lastName, phone, email, rol, imageUrl, "");
         db.collection("users").document(userId).set(user)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Registro exitoso y datos guardados", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Registro exitoso, verifica tu correo para iniciar sesión", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {

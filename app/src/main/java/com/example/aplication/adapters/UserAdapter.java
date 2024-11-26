@@ -1,7 +1,7 @@
 package com.example.aplication.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.aplication.R;
 import com.example.aplication.models.User;
 import com.example.aplication.utils.CircleTransform;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.squareup.picasso.Picasso;
@@ -27,7 +26,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     private Context context;
     private List<User> userList;
 
-    private FirebaseAuth auth;
     private FirebaseFirestore db;
 
     public UserAdapter(Context context, List<User> userList) {
@@ -70,60 +68,74 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     private void deleteUser(String email, int position) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        new AlertDialog.Builder(context)
+                .setTitle("Confirmación")
+                .setMessage("¿Estás seguro de que deseas al usuario?")
+                .setPositiveButton("Eliminar usuario", (dialog, which) -> {
+                    db = FirebaseFirestore.getInstance();
 
-        db.collection("users")
-                .whereEqualTo("email", email)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                            String documentId = document.getId();
+                    db.collection("users")
+                            .whereEqualTo("email", email)
+                            .get()
+                            .addOnSuccessListener(queryDocumentSnapshots -> {
+                                if (!queryDocumentSnapshots.isEmpty()) {
+                                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                        String documentId = document.getId();
 
-                            db.collection("users").document(documentId).delete()
-                                    .addOnSuccessListener(unused -> {
-                                        userList.remove(position);
-                                        notifyItemRemoved(position);
-                                        Toast.makeText(context, "Usuario eliminado", Toast.LENGTH_SHORT).show();
+                                        db.collection("users").document(documentId).delete()
+                                                .addOnSuccessListener(unused -> {
+                                                    userList.remove(position);
+                                                    notifyItemRemoved(position);
+                                                    Toast.makeText(context, "Usuario eliminado", Toast.LENGTH_SHORT).show();
 
-                                        deleteJobs(email);
-                                        deleteApplications(email);
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(context, "Error al eliminar el usuario", Toast.LENGTH_SHORT).show();
-                                    });
-                        }
-                    } else {
-                        Toast.makeText(context, "No se encontró usuario con ese correo", Toast.LENGTH_SHORT).show();
-                    }
+                                                    deleteJobs(email);
+                                                    deleteApplications(email);
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    Toast.makeText(context, "Error al eliminar el usuario", Toast.LENGTH_SHORT).show();
+                                                });
+                                    }
+                                } else {
+                                    Toast.makeText(context, "No se encontró usuario con ese correo", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(context, "Error al buscar el usuario", Toast.LENGTH_SHORT).show();
+                            });
                 })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(context, "Error al buscar el usuario", Toast.LENGTH_SHORT).show();
-                });
+                .create()
+                .show();
     }
 
     private void deleteJobs(String email) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        new AlertDialog.Builder(context)
+                .setTitle("Confirmación")
+                .setMessage("¿Estás seguro de que deseas eliminar el trabajo?")
+                .setPositiveButton("Eliminar trabajo", (dialog, which) -> {
+                    db = FirebaseFirestore.getInstance();
 
-        db.collection("jobs")
-                .whereEqualTo("companyEmail", email)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                            String documentId = document.getId();
+                    db.collection("jobs")
+                            .whereEqualTo("companyEmail", email)
+                            .get()
+                            .addOnSuccessListener(queryDocumentSnapshots -> {
+                                if (!queryDocumentSnapshots.isEmpty()) {
+                                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                        String documentId = document.getId();
 
-                            db.collection("jobs").document(documentId).delete()
-                                    .addOnSuccessListener(unused -> {})
-                                    .addOnFailureListener(e -> {});
-                        }
-                    }
+                                        db.collection("jobs").document(documentId).delete()
+                                                .addOnSuccessListener(unused -> {})
+                                                .addOnFailureListener(e -> {});
+                                    }
+                                }
+                            })
+                            .addOnFailureListener(e -> {});
                 })
-                .addOnFailureListener(e -> {});
+                .create()
+                .show();
     }
 
     private void deleteApplications(String email) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         db.collection("applications")
                 .whereEqualTo("companyEmail", email)

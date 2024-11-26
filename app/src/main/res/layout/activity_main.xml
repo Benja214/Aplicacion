@@ -24,6 +24,7 @@
             android:paddingVertical="32dp">
 
             <ImageView
+                android:id="@+id/ivLogo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="30dp"
@@ -64,6 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/lock"
+                android:drawableRight="@drawable/eye"
                 android:drawablePadding="10dp"
                 android:inputType="textPassword"
                 android:hint="Contraseña"

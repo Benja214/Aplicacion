@@ -11,12 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.aplication.R;
 import com.example.aplication.adapters.ApplicationAdapter;
 import com.example.aplication.databinding.FragmentApplicationsBinding;
 import com.example.aplication.models.Application;
@@ -58,7 +55,7 @@ public class ApplicationsFragment extends Fragment {
         tvEmpty = binding.tvEmpty;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        applicationAdapter = new ApplicationAdapter(getContext(), applicationsList, "");
+        applicationAdapter = new ApplicationAdapter(applicationsList, "");
         recyclerView.setAdapter(applicationAdapter);
 
         String userEmail = auth.getCurrentUser().getEmail();
@@ -70,7 +67,7 @@ public class ApplicationsFragment extends Fragment {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             userRole = document.getString("rol");
-                            applicationAdapter = new ApplicationAdapter(getContext(), applicationsList, userRole);
+                            applicationAdapter = new ApplicationAdapter(applicationsList, userRole);
                             recyclerView.setAdapter(applicationAdapter);
 
                             if (Objects.equals(userRole, "Empresa")) {

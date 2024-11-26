@@ -56,31 +56,14 @@
             android:layout_marginTop="4dp"
             android:textSize="14sp" />
 
-        <LinearLayout
-            android:id="@+id/buttons"
+        <Button
+            android:id="@+id/acceptButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:text="Aceptar"
             android:layout_marginTop="8dp"
-            android:visibility="gone" >
-
-            <Button
-                android:id="@+id/declineButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Rechazar"
-                app:cornerRadius="8dp" />
-
-            <Button
-                android:id="@+id/acceptButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Aceptar"
-                android:layout_marginStart="8dp"
-                app:cornerRadius="8dp" />
-        </LinearLayout>
+            app:cornerRadius="8dp"
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/progressBar"
