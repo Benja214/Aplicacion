@@ -111,9 +111,6 @@ Si experimentas problemas durante el registro, inicio de sesión o cualquier otr
 - **Correo Electrónico**: Vanner@empresa.com
 """
 
-# Guardar el contenido final en un archivo Markdown
-output_final_md_file = "/mnt/data/manual_usuario_completo.md"
-with open(output_final_md_file, "w") as f:
     f.write(final_markdown_content)
 
 output_final_md_file
