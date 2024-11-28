@@ -1,16 +1,16 @@
+# Crear el contenido del manual en formato Markdown
+markdown_content = """
 # Manual de Usuario
 
 ## Índice
 - [1. Requisitos Previos](#1-requisitos-previos)
 - [2. Registro de Usuario](#2-registro-de-usuario)
-  - [2.1 Proceso de Registro](#21-proceso-de-registro)
-  - [2.2 Confirmación de Registro](#22-confirmación-de-registro)
-- [3. Iniciar Sesión](#3-iniciar-sesión)
-  - [3.1 Proceso de Inicio de Sesión](#31-proceso-de-inicio-de-sesión)
-  - [3.2 Recuperar Contraseña](#32-recuperar-contraseña)
-- [4. Cerrar Sesión](#4-cerrar-sesión)
+- [3. Iniciar Sesión](#3-iniciar-sesion)
+- [4. Cerrar Sesión](#4-cerrar-sesion)
 - [5. Editar Perfil](#5-editar-perfil)
-- [6. Soporte y Contacto](#6-soporte-y-contacto)
+- [6. Creación de Trabajo (Para Empresas/Admins)](#6-creacion-de-trabajo-para-empresasadmins)
+- [7. Vista del Trabajador](#7-vista-del-trabajador)
+- [8. Soporte y Contacto](#8-soporte-y-contacto)
 
 ## 1. Requisitos Previos
 - **Dispositivo Compatible**: Asegúrate de tener un dispositivo móvil compatible con la aplicación (sistemas operativos iOS o Android actualizados).
@@ -23,17 +23,17 @@
 3. **Completar el Formulario de Registro**:
    - **Nombre**: Escribe tu nombre completo.
    - **Apellido**: Introduce tu apellido.
-   - **Teléfono**: Proporciona un número de contacto (recomendado un número exclusivo para el trabajo).
+   - **Teléfono**: Proporciona un número de contacto.
    - **Correo Electrónico**: Usa un correo profesional y accesible.
    - **Contraseña**: Ingresa una contraseña segura que incluya letras mayúsculas, minúsculas, números y símbolos.
-4. **Aceptar Términos y Condiciones**: Marca la casilla para aceptar los términos y condiciones.
+   - **Confirmación de Contraseña**: Reingresa la misma contraseña para confirmar.
+4. **Subir Imagen de Perfil** *(opcional)*: Puedes seleccionar una imagen desde tu galería para establecerla como tu foto de perfil.
 5. **Enviar Información**: Toca el botón **“Registrar”** para completar el proceso de registro.
 
-![Formulario de Registro](https://github.com/user-attachments/assets/d1cdd54a-0d27-4646-83a2-9e8643ad6daf)
+![9240f483-5a8e-4898-bb63-d3dcfa3fec01](https://github.com/user-attachments/assets/392f83a3-055f-45eb-8518-450e2249d646)
 
 ### 2.2 Confirmación de Registro
-- **Verificación de Correo**: Recibirás un correo de confirmación con un enlace de verificación. Haz clic en el enlace para activar tu cuenta. Si no lo ves en tu bandeja de entrada, revisa la carpeta de spam.
-- **Registro Completo**: Una vez activada tu cuenta, podrás iniciar sesión.
+- **Verificación de Correo**: Recibirás un correo de confirmación con un enlace de verificación. Debes hacer clic en el enlace para activar tu cuenta y poder iniciar sesión. Si no lo encuentras en tu bandeja de entrada, revisa la carpeta de spam.
 
 ## 3. Iniciar Sesión
 ### 3.1 Proceso de Inicio de Sesión
@@ -41,96 +41,60 @@
 2. **Seleccionar "Iniciar Sesión"**: Toca el botón **“Iniciar Sesión”** en la pantalla de inicio.
 3. **Introducir Credenciales**:
    - **Correo Electrónico**: Escribe el correo que utilizaste para registrarte.
-   - **Contraseña**: Introduce tu contraseña.
+   - **Contraseña**: Introduce tu contraseña. Puedes usar el ícono de "mostrar contraseña" para visualizarla.
 4. **Tocar "Iniciar Sesión"**: Si tus credenciales son correctas, accederás a la pantalla principal de la aplicación.
 
-![Pantalla de Inicio de Sesión](https://github.com/user-attachments/assets/a0183ebd-79b2-43de-9158-787b8b3a5e96)
+![e99dcb27-0f3b-4fcc-b7c1-080f6e1c63e2](https://github.com/user-attachments/assets/f735d2bc-cb54-408f-b347-49403d3c3d60)
 
-### 3.2 Recuperar Contraseña
-1. **Seleccionar "Olvidé mi Contraseña"**: En la pantalla de inicio de sesión, toca la opción **“Olvidé mi Contraseña”**.
-
-![image](https://github.com/user-attachments/assets/2e0512ee-ff3a-4cb9-8788-75ee00fb593b)
-
-2. **Introducir Correo Electrónico**: Escribe el correo electrónico que usaste para registrarte.
-3. **Enviar Solicitud**: Toca el botón para enviar la solicitud de recuperación de contraseña.
-4. **Seguir Instrucciones**: Revisa tu bandeja de entrada y sigue las instrucciones detalladas en el correo para restablecer tu contraseña. Si no recibes el correo, revisa la carpeta de spam.
 
 ## 4. Cerrar Sesión
-- **Cerrar Sesión**: Para cerrar sesión, ve al menú de configuración (ícono de tres puntos en la esquina superior derecha) y selecciona **“Cerrar Sesión”**. Esto cerrará tu sesión de manera segura.
+- **Cerrar Sesión**: Para cerrar sesión, ve al menú de configuración (ícono de tres puntos en la esquina superior derecha) y selecciona **“Cerrar Sesión”**.
 
-![Cerrar Sesión](https://github.com/user-attachments/assets/7beb3269-89bb-417f-8b1c-d62d24ed2fe4)
+![Cerrar Sesión](file:/mnt/data/processed_images/29bbe819-cc35-4ade-8308-6e8e453ad6bf.jpg)
 
 ## 5. Editar Perfil
-- **Editar o Eliminar Información de Perfil**: Puedes modificar tu información de perfil accediendo a la sección de configuración.
-   - **Nombre**: Actualiza tu nombre.
-   - **Apellido**: Cambia tu apellido.
-   - **Teléfono**: Proporciona un nuevo número de contacto si es necesario.
-   - **RUT**: Actualiza tu RUT, si es necesario.
-   - **Correo Electrónico**: Introduce un nuevo correo electrónico si lo deseas.
+- **Editar Información de Perfil**: Puedes modificar tu información accediendo a la sección de configuración.
+  - **Nombre**: Actualiza tu nombre.
+  - **Apellido**: Cambia tu apellido.
+  - **Teléfono**: Proporciona un nuevo número de contacto si es necesario.
+  - **Correo Electrónico**: Introduce un nuevo correo electrónico si lo deseas.
+  - **Imagen de Perfil**: Cambia tu imagen de perfil seleccionando una nueva desde tu galería.
 
-![image](https://github.com/user-attachments/assets/43862fbd-c78c-4bb8-9842-345c8da457af)
+![b1e465bb-c098-4c78-bf48-851947da9f6e](https://github.com/user-attachments/assets/a0ae2095-47ea-49ce-9e57-f3874c2223a9)
+
 
 ## 6. Creación de Trabajo (Para Empresas/Admins)
 
-### 6.1 Descripción General
-Los usuarios con rol de empresa o admin tienen acceso a una sección donde pueden crear y gestionar ofertas de empleo, además de visualizar información sobre trabajadores interesados.
-
 ### 6.2 Cómo Crear una Oferta de Trabajo
-1. **Acceder al Menú Principal**:
-   - En la interfaz de admin, utiliza las pestañas superiores para moverte entre **Trabajos** y **Empleadores**.
-
-   ![Interfaz Principal de Admin](https://github.com/user-attachments/assets/fb14125d-1674-4b25-b1d2-0a80ae3500ae)
-
-2. **Crear una Nueva Oferta**:
-   - En la pestaña **"Trabajos"**, selecciona la opción **"Crear Empleo"** para acceder al formulario de publicación.
-
 3. **Completar el Formulario**:
    - Llena los campos requeridos:
      - **Título del Puesto**: Nombre del trabajo.
      - **Descripción**: Detalla las tareas, requisitos y beneficios.
      - **Sueldo**: Indica el monto ofrecido (opcional).
      - **Vacantes**: Número de posiciones disponibles.
-     - **Modalidad**: Part-time o Full-time.
+     - **Modalidad**: Selecciona una opción: Part-time, Full-time o Por horas.
      - **Fecha de Vencimiento**: Hasta cuándo estará activa la oferta.
-     - 
-![image](https://github.com/user-attachments/assets/5395c1eb-e5ca-4df2-bced-b1701099673a)
+
+![3a63dfa0-56bb-42bb-84a6-4b1fda6421a3](https://github.com/user-attachments/assets/9f027579-2570-4cb9-8faa-9e5c36d798d5)
 
 
-4. **Publicar la Oferta**:
-   - Una vez completado el formulario, selecciona **"Publicar"** para que la oferta sea visible para los trabajadores en la sección de "Trabajos".
+## 7. Vista del Trabajador
+- **Postulaciones**:
+  - Antes de postular a un empleo, se te pedirá completar información adicional como experiencia previa, habilidades y una breve descripción personal.
+- **Detalle de Postulaciones**:
+  - Al postular, podrás visualizar información sobre el empleo, incluyendo requisitos, beneficios y estado de tu postulación.
 
-5. **Gestionar las Postulaciones**:
-   - Cambia a la pestaña **"Mis Ofertas"** para revisar las postulaciones recibidas.
+![29bbe819-cc35-4ade-8308-6e8e453ad6bf](https://github.com/user-attachments/assets/7f71333a-dd0c-48b6-bd19-a29fdf44aab3)
 
-### 6.3 Aceptar o Rechazar Postulaciones
-Los admins pueden gestionar las solicitudes de los trabajadores directamente desde la pestaña de **"Mis Ofertas"**, donde tienen opciones para aceptar o rechazar postulaciones.
-
-#### **Pasos para Aceptar o Rechazar Postulaciones**
-1. **Seleccionar la Oferta**:
-   - En la pestaña **"Mis Ofertas"**, elige la oferta en la que deseas revisar las postulaciones.
-
-2. **Revisar Candidatos**:
-   - Aparecerá una lista con los trabajadores que han postulado. Cada tarjeta muestra información básica del candidato, como su nombre y datos de contacto.
-
-3. **Aceptar o Rechazar**:
-   - Usa los botones disponibles:
-     - **Aceptar**: Si el trabajador cumple con los requisitos, selecciónalo para confirmar.
-     - **Rechazar**: Si no cumple con los requisitos, rechaza la postulación.
-
-   ![Aceptar o Rechazar Postulaciones](https://github.com/user-attachments/assets/0df472f0-5204-4691-b55d-f3c7db4c4fc7)
-
-4. **Notificar al Trabajador**:
-   - Automáticamente, el trabajador será notificado sobre tu decisión (aceptado o rechazado), con los próximos pasos indicados si es aceptado.
-
----
-
-### Observaciones
-- La funcionalidad de **Aceptar o Rechazar Postulaciones** garantiza que los admins puedan gestionar las solicitudes de manera eficiente.
-- Los trabajadores recibirán actualizaciones en tiempo real sobre el estado de sus postulaciones, asegurando una experiencia transparente.
-
-
-## 6. Soporte y Contacto
+## 8. Soporte y Contacto
 Si experimentas problemas durante el registro, inicio de sesión o cualquier otro inconveniente, contacta a nuestro equipo de soporte para obtener asistencia:
 
 - **Correo Electrónico**: Vanner@empresa.com
-- **Teléfono**: +56 123456789
+"""
+
+# Guardar el contenido en un archivo .md
+output_md_file = "/mnt/data/manual_usuario.md"
+with open(output_md_file, "w") as f:
+    f.write(markdown_content)
+
+output_md_file
