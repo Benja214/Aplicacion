@@ -1,5 +1,5 @@
-# Crear el contenido del manual en formato Markdown
-markdown_content = """
+# Actualizar el contenido del manual de usuario en Markdown con todas las imágenes recibidas
+final_markdown_content = """
 # Manual de Usuario
 
 ## Índice
@@ -30,7 +30,8 @@ markdown_content = """
 4. **Subir Imagen de Perfil** *(opcional)*: Puedes seleccionar una imagen desde tu galería para establecerla como tu foto de perfil.
 5. **Enviar Información**: Toca el botón **“Registrar”** para completar el proceso de registro.
 
-![9240f483-5a8e-4898-bb63-d3dcfa3fec01](https://github.com/user-attachments/assets/392f83a3-055f-45eb-8518-450e2249d646)
+![WhatsApp Image 2024-11-28 at 1 09 26 AM](https://github.com/user-attachments/assets/b29bbb15-e025-4db1-890d-5849c352297a)
+
 
 ### 2.2 Confirmación de Registro
 - **Verificación de Correo**: Recibirás un correo de confirmación con un enlace de verificación. Debes hacer clic en el enlace para activar tu cuenta y poder iniciar sesión. Si no lo encuentras en tu bandeja de entrada, revisa la carpeta de spam.
@@ -44,13 +45,13 @@ markdown_content = """
    - **Contraseña**: Introduce tu contraseña. Puedes usar el ícono de "mostrar contraseña" para visualizarla.
 4. **Tocar "Iniciar Sesión"**: Si tus credenciales son correctas, accederás a la pantalla principal de la aplicación.
 
-![e99dcb27-0f3b-4fcc-b7c1-080f6e1c63e2](https://github.com/user-attachments/assets/f735d2bc-cb54-408f-b347-49403d3c3d60)
+![e99dcb27-0f3b-4fcc-b7c1-080f6e1c63e2](https://github.com/user-attachments/assets/c4b8dbd7-901d-4e0e-803b-5f2c47c7151e)
 
 
 ## 4. Cerrar Sesión
 - **Cerrar Sesión**: Para cerrar sesión, ve al menú de configuración (ícono de tres puntos en la esquina superior derecha) y selecciona **“Cerrar Sesión”**.
 
-![Cerrar Sesión](file:/mnt/data/processed_images/29bbe819-cc35-4ade-8308-6e8e453ad6bf.jpg)
+![Cerrar Sesión](29bbe819-cc35-4ade-8308-6e8e453ad6bf.jpg)
 
 ## 5. Editar Perfil
 - **Editar Información de Perfil**: Puedes modificar tu información accediendo a la sección de configuración.
@@ -60,8 +61,7 @@ markdown_content = """
   - **Correo Electrónico**: Introduce un nuevo correo electrónico si lo deseas.
   - **Imagen de Perfil**: Cambia tu imagen de perfil seleccionando una nueva desde tu galería.
 
-![b1e465bb-c098-4c78-bf48-851947da9f6e](https://github.com/user-attachments/assets/a0ae2095-47ea-49ce-9e57-f3874c2223a9)
-
+![image](https://github.com/user-attachments/assets/d1498e23-b3f1-4864-bdef-2597126c4c64)
 
 ## 6. Creación de Trabajo (Para Empresas/Admins)
 
@@ -75,16 +75,35 @@ markdown_content = """
      - **Modalidad**: Selecciona una opción: Part-time, Full-time o Por horas.
      - **Fecha de Vencimiento**: Hasta cuándo estará activa la oferta.
 
-![3a63dfa0-56bb-42bb-84a6-4b1fda6421a3](https://github.com/user-attachments/assets/9f027579-2570-4cb9-8faa-9e5c36d798d5)
+![image](https://github.com/user-attachments/assets/d07db95c-317f-4828-bb1e-bc972937454d)
+
+**podras eliminar o editar**:
+
+- tendras la opcion de editar o eliminar al trabajo creado
+
+![1aa3475f-9fa2-49b0-987b-a94382153038](https://github.com/user-attachments/assets/73752b54-dc52-4c79-853d-c25b07ce1945)
 
 
-## 7. Vista del Trabajador
+## 7. Vista del Trabajador / empresa
+
+**trabajador**:
+
 - **Postulaciones**:
   - Antes de postular a un empleo, se te pedirá completar información adicional como experiencia previa, habilidades y una breve descripción personal.
+
+ ![image](https://github.com/user-attachments/assets/d07db95c-317f-4828-bb1e-bc972937454d)
+ 
 - **Detalle de Postulaciones**:
   - Al postular, podrás visualizar información sobre el empleo, incluyendo requisitos, beneficios y estado de tu postulación.
 
-![29bbe819-cc35-4ade-8308-6e8e453ad6bf](https://github.com/user-attachments/assets/7f71333a-dd0c-48b6-bd19-a29fdf44aab3)
+![image](https://github.com/user-attachments/assets/e4e23922-0623-4161-bd17-9d7e60300b52)
+
+**empresa**:
+
+- tendras la opcion de poder aceptar o rechazar la postulacion del trabajador
+
+  ![image](https://github.com/user-attachments/assets/186f135b-ae52-4286-8683-198ca4b0bdae)
+
 
 ## 8. Soporte y Contacto
 Si experimentas problemas durante el registro, inicio de sesión o cualquier otro inconveniente, contacta a nuestro equipo de soporte para obtener asistencia:
@@ -92,9 +111,10 @@ Si experimentas problemas durante el registro, inicio de sesión o cualquier otr
 - **Correo Electrónico**: Vanner@empresa.com
 """
 
-# Guardar el contenido en un archivo .md
-output_md_file = "/mnt/data/manual_usuario.md"
-with open(output_md_file, "w") as f:
-    f.write(markdown_content)
+# Guardar el contenido final en un archivo Markdown
+output_final_md_file = "/mnt/data/manual_usuario_completo.md"
+with open(output_final_md_file, "w") as f:
+    f.write(final_markdown_content)
 
-output_md_file
+output_final_md_file
+
