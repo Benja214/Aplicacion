@@ -108,9 +108,4 @@
 Si experimentas problemas durante el registro, inicio de sesión o cualquier otro inconveniente, contacta a nuestro equipo de soporte para obtener asistencia:
 
 - **Correo Electrónico**: Vanner@empresa.com
-"""
-
-    f.write(final_markdown_content)
-
-output_final_md_file
 
