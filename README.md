@@ -1,5 +1,5 @@
 # Actualizar el contenido del manual de usuario en Markdown con todas las imágenes recibidas
-final_markdown_content = """
+
 # Manual de Usuario
 
 ## Índice
@@ -51,7 +51,6 @@ final_markdown_content = """
 ## 4. Cerrar Sesión
 - **Cerrar Sesión**: Para cerrar sesión, ve al menú de configuración (ícono de tres puntos en la esquina superior derecha) y selecciona **“Cerrar Sesión”**.
 
-![Cerrar Sesión](29bbe819-cc35-4ade-8308-6e8e453ad6bf.jpg)
 
 ## 5. Editar Perfil
 - **Editar Información de Perfil**: Puedes modificar tu información accediendo a la sección de configuración.
